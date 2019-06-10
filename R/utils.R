@@ -19,13 +19,13 @@ OpenDatabaseConnection <- function(use.mojn.default = TRUE, drv = odbc::odbc(), 
     params <- readr::read_csv("M:/MONITORING/SLS_Veg/Data/Database/ConnectFromR/sv-database-conn.csv") %>%
       as.list()
     params$drv <- drv
+    params$validateQuery = "SELECT 1 FROM analysis.Spring"
     my.pool <- do.call(pool::dbPool, params)
   } else {
-    my.pool <- pool::dbPool(drv, ...)
+    my.pool <- pool::dbPool(drv = drv, validateQuery = "SELECT 1 FROM analysis.Spring", ...)
   }
 
   return(my.pool)
-
 }
 
 #' Close a Connection to the Spring Veg Database
