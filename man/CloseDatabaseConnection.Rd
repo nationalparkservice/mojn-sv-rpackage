@@ -18,5 +18,4 @@ Close a Connection to the Spring Veg Database
 \examples{
 conn <- OpenDatabaseConnection()
 CloseDatabaseConnection(conn)
-
 }

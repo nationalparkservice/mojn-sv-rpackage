@@ -10,8 +10,9 @@
 #' @importFrom magrittr %>%
 #'
 #' @examples
-#' conn <- OpenDatabaseConnection()
-#'
+#' \dontrun{
+#'     conn <- OpenDatabaseConnection()
+#' }
 OpenDatabaseConnection <- function(use.mojn.default = TRUE, drv = odbc::odbc(), ...) {
 
   if (use.mojn.default) {
@@ -39,7 +40,6 @@ OpenDatabaseConnection <- function(use.mojn.default = TRUE, drv = odbc::odbc(), 
 #' @examples
 #' conn <- OpenDatabaseConnection()
 #' CloseDatabaseConnection(conn)
-#'
 CloseDatabaseConnection <- function(conn) {
   pool::poolClose(conn)
 }

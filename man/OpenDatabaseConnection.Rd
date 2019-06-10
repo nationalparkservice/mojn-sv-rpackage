@@ -21,6 +21,7 @@ A database connection pool object
 Open a Connection to the Spring Veg Database
 }
 \examples{
-conn <- OpenDatabaseConnection()
-
+\dontrun{
+    conn <- OpenDatabaseConnection()
+}
 }
