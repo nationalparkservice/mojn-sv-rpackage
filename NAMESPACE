@@ -2,4 +2,5 @@
 
 export(CloseDatabaseConnection)
 export(OpenDatabaseConnection)
+export(SaveDataToCsv)
 importFrom(magrittr,"%>%")

@@ -12,4 +12,7 @@ RoxygenNote: 6.1.1
 Imports: 
     pool,
     magrittr,
-    odbc
+    odbc,
+    readr,
+    dplyr,
+    dbplyr
