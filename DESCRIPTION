@@ -16,3 +16,5 @@ Imports:
     readr,
     dplyr,
     dbplyr
+Suggests: 
+    testthat
