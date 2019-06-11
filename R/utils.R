@@ -19,10 +19,9 @@ OpenDatabaseConnection <- function(use.mojn.default = TRUE, drv = odbc::odbc(), 
     params <- readr::read_csv("M:/MONITORING/SLS_Veg/Data/Database/ConnectFromR/sv-database-conn.csv") %>%
       as.list()
     params$drv <- drv
-    params$validateQuery = "SELECT 1 FROM analysis.Spring"
     my.pool <- do.call(pool::dbPool, params)
   } else {
-    my.pool <- pool::dbPool(drv = drv, validateQuery = "SELECT 1 FROM analysis.Spring", ...)
+    my.pool <- pool::dbPool(drv = drv, ...)
   }
 
   return(my.pool)
