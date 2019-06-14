@@ -23,34 +23,9 @@
 #' }
 LpiQcMissingPoints <- function(conn, path.to.data, park, spring, field.season, data.source = "database", points = seq(0.5, 15, 0.5)) {
 
-  if (!(data.source %in% c("database", "local"))) {
-    stop("Please choose either 'database' or 'local' for data.source")
-  } else if (data.source == "database") {
-    lpi.canopy <- dplyr::tbl(conn, dbplyr::in_schema("analysis", "LPICanopy"))
-  } else if (data.source == "local") {
-    lpi.canopy <- readr::read_csv(file.path(path.to.data, "LPICanopy.csv"))
-  }
+  lpi.canopy <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, data.name = "LPICanopy")
 
   lpi.canopy %<>%
-    dplyr::mutate(FieldSeason = as.character(FieldSeason))
-
-  if(!missing(park)) {
-    lpi.canopy %<>%
-      dplyr::filter(Park == park)
-  }
-
-  if(!missing(spring)) {
-    lpi.canopy %<>%
-      dplyr::filter(SpringCode == spring)
-  }
-
-  if(!missing(field.season)) {
-    lpi.canopy %<>%
-      dplyr::filter(FieldSeason == field.season)
-  }
-
-  lpi.canopy %<>%
-    dplyr::collect() %>%
     dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, LocationOnTape_m) %>%
     unique() %>%
     dplyr::group_by(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber) %>%
