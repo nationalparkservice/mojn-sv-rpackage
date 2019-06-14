@@ -118,7 +118,7 @@ LpiQcUNKSpecies <- function(conn, path.to.data, park, spring, field.season, data
     dplyr::filter(SoilSurfacePlantCode == "UNK") %>%
     dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, UnknownPlantCode, TransectNumber, LocationOnTape_m)
 
-  tbd.species <- dplyr::bind_rows(lpi.canopy, lpi.surface) %>%
+  unk.species <- dplyr::bind_rows(lpi.canopy, lpi.surface) %>%
     unique() %>%
     dplyr::group_by(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, UnknownPlantCode) %>%
     dplyr::mutate(LocationOnTape_m = paste(LocationOnTape_m, collapse = ", ")) %>%
@@ -126,5 +126,5 @@ LpiQcUNKSpecies <- function(conn, path.to.data, park, spring, field.season, data
     unique() %>%
     dplyr::ungroup()
 
-  return(tbd.species)
+  return(unk.species)
 }
