@@ -17,3 +17,10 @@ test_that("LpiQcMissingPoints returns a dataframe of missing points when points 
   expect_setequal(LpiQcMissingPoints(path.to.data = "./dummy-data/bad", data.source = "local", points = c(0.5, 1, 1.5)), expected.missing)
 })
 
+test_that("LpiQcMissingPoints does not fail when using data from the database", {
+  conn <- OpenDatabaseConnection()
+
+  expect_error(LpiQcMissingPoints(conn, field.season = 2019), NA)
+
+  CloseDatabaseConnection(conn)
+})
