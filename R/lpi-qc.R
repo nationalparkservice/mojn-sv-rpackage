@@ -8,7 +8,7 @@
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
 #' @param points Vector representing the expected points on a transect. Defaults to \code{seq(0.5, 15, 0.5)} (a 15m transect sampled every 0.5m and starting at 0.5m).
 #'
-#' @return None.
+#' @return A tibble with columns Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, LocationOnTape_m. Note that LocationOnTape_m is a comma-separated list of missing points.
 #' @export
 #'
 #' @importFrom magrittr %>% %<>%
@@ -46,7 +46,7 @@ LpiQcMissingPoints <- function(conn, path.to.data, park, spring, field.season, d
 #' @param field.season Optional. Field season name to filter on, e.g. "2019".
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
 #'
-#' @return None.
+#' @return A tibble with columns Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, UnknownPlantCode, TransectNumber, LocationOnTape_m. Note that LocationOnTape_m is a comma-separated list of each point where the unknown species occurs.
 #' @export
 #'
 #' @importFrom magrittr %>% %<>%
@@ -92,7 +92,7 @@ LpiQcTBDSpecies <- function(conn, path.to.data, park, spring, field.season, data
 #' @param field.season Optional. Field season name to filter on, e.g. "2019".
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
 #'
-#' @return None.
+#' @return A tibble with columns Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, UnknownPlantCode, TransectNumber, LocationOnTape_m. Note that LocationOnTape_m is a comma-separated list of each point where the unknown species occurs.
 #' @export
 #'
 #' @importFrom magrittr %>% %<>%

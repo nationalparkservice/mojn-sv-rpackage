@@ -23,7 +23,7 @@ LpiQcMissingPoints(conn, path.to.data, park, spring, field.season,
 \item{points}{Vector representing the expected points on a transect. Defaults to \code{seq(0.5, 15, 0.5)} (a 15m transect sampled every 0.5m and starting at 0.5m).}
 }
 \value{
-None.
+A tibble with columns Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, LocationOnTape_m. Note that LocationOnTape_m is a comma-separated list of missing points.
 }
 \description{
 Check for missing LPI points
