@@ -24,3 +24,24 @@ test_that("LpiQcMissingPoints does not fail when using data from the database", 
 
   CloseDatabaseConnection(conn)
 })
+
+test_that("LpiQcTBDSpecies returns a dataframe of unknown species codes that are marked as TBD", {
+  expected.tbd <- tibble::tibble(Park = c("LAKE", "LAKE", "LAKE"),
+                                 SpringCode = c("LAKE_P_BLUE0", "LAKE_P_HOR0042", "LAKE_P_HOR0042"),
+                                 SpringName = c("Blue Point", "Horsethief Canyon", "Horsethief Canyon"),
+                                 VisitType = c("Primary", "Primary", "Primary"),
+                                 FieldSeason = c("2019", "2019", "2019"),
+                                 StartDate = c("4/4/2019", "4/22/2019", "4/22/2019"),
+                                 UnknownPlantCode = c("UNK4", "UNK2", "UNK5"),
+                                 TransectNumber = c(2, 0, 2),
+                                 LocationOnTape_m = c("1, 1.5", "1", "1, 1.5"))
+  expect_setequal(LpiQcTBDSpecies(path.to.data = "./dummy-data/ok", data.source = "local"), expected.tbd)
+})
+
+test_that("LpiQcTBDSpecies does not fail when using data from the database", {
+  conn <- OpenDatabaseConnection()
+
+  expect_error(LpiQcTBDSpecies(conn, field.season = 2019), NA)
+
+  CloseDatabaseConnection(conn)
+})

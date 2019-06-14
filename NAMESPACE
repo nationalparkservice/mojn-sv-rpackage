@@ -2,6 +2,7 @@
 
 export(CloseDatabaseConnection)
 export(LpiQcMissingPoints)
+export(LpiQcTBDSpecies)
 export(OpenDatabaseConnection)
 export(SaveDataToCsv)
 importFrom(magrittr,"%<>%")
