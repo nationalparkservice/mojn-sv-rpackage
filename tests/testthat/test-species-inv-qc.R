@@ -7,7 +7,7 @@ test_that("SpInvQcDuplicateSpecies returns a dataframe of transects with unknown
                              VisitType = c("Primary"),
                              FieldSeason = c("2019"),
                              StartDate = c("5/6/2019"),
-                             UnknownPlantCode = c("UNK4, NA"),
+                             UnknownPlantCode = c("UNK7, NA"),
                              TransectNumber = c(0),
                              USDAPlantsCode = "PLANT2")
   expect_mapequal(SpInvQcDuplicateSpecies(path.to.data = "./dummy-data/bad", data.source = "local"), expected)

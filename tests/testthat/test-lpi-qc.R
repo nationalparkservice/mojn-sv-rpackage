@@ -32,7 +32,7 @@ test_that("LpiQcTBDSpecies returns a dataframe of unknown species codes that are
                                  VisitType = c("Primary", "Primary", "Primary"),
                                  FieldSeason = c("2019", "2019", "2019"),
                                  StartDate = c("4/4/2019", "4/22/2019", "4/22/2019"),
-                                 UnknownPlantCode = c("UNK4", "UNK2", "UNK5"),
+                                 UnknownPlantCode = c("UNK4", "UNK7", "UNK5"),
                                  TransectNumber = c(2, 0, 2),
                                  LocationOnTape_m = c("1, 1.5", "1", "1, 1.5"))
   expect_mapequal(LpiQcTBDSpecies(path.to.data = "./dummy-data/ok", data.source = "local"), expected.tbd)
@@ -53,7 +53,7 @@ test_that("LpiQcDuplicateSpecies returns a dataframe of points with unknowns tha
                                  VisitType = c("Primary"),
                                  FieldSeason = c("2019"),
                                  StartDate = c("4/4/2019"),
-                                 UnknownPlantCode = c("NA, UNK4"),
+                                 UnknownPlantCode = c("NA, UNK3"),
                                  TransectNumber = c(2),
                                  LocationOnTape_m = c(1),
                                  Stratum = "B",

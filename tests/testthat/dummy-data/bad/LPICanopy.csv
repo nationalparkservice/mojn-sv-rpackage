@@ -8,8 +8,8 @@ LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,N,B,P
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,N,B,Plant,UNK,UNK desc,ND,UNK1,Y,Raw
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Other,OTHER2,OTHER2 desc,NA,NA,NA,Raw
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Plant,PLANT1,PLANT1 desc,N,NA,N,Raw
-LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Plant,PLANT1,PLANT1 desc,N,UNK4,N,Raw
-LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Plant,TBD,TBD desc,N,UNK4,N,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Plant,PLANT1,PLANT1 desc,N,UNK3,N,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Plant,TBD,TBD desc,N,UNK5,N,Raw
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1.5,Exact,N,NA,None,NA,NA,NA,NA,NA,Raw
 LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,0.5,Exact,N,B,Other,OTHER1,OTHER1 desc,NA,NA,NA,Raw
 LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,0.5,Exact,N,B,Plant,PLANT2,PLANT2 desc,N,NA,N,Raw
