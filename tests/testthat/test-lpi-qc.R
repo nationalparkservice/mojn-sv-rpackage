@@ -14,7 +14,7 @@ test_that("LpiQcMissingPoints returns a dataframe of missing points when points 
                                      TransectNumber = c(0, 1),
                                      LocationOnTape_m = c("1, 1.5", "0.5"))
 
-  expect_setequal(LpiQcMissingPoints(path.to.data = "./dummy-data/bad", data.source = "local", points = c(0.5, 1, 1.5)), expected.missing)
+  expect_mapequal(LpiQcMissingPoints(path.to.data = "./dummy-data/bad", data.source = "local", points = c(0.5, 1, 1.5)), expected.missing)
 })
 
 test_that("LpiQcMissingPoints does not fail when using data from the database", {
@@ -35,7 +35,7 @@ test_that("LpiQcTBDSpecies returns a dataframe of unknown species codes that are
                                  UnknownPlantCode = c("UNK4", "UNK2", "UNK5"),
                                  TransectNumber = c(2, 0, 2),
                                  LocationOnTape_m = c("1, 1.5", "1", "1, 1.5"))
-  expect_setequal(LpiQcTBDSpecies(path.to.data = "./dummy-data/ok", data.source = "local"), expected.tbd)
+  expect_mapequal(LpiQcTBDSpecies(path.to.data = "./dummy-data/ok", data.source = "local"), expected.tbd)
 })
 
 test_that("LpiQcTBDSpecies does not fail when using data from the database", {
