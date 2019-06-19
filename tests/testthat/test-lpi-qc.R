@@ -45,3 +45,22 @@ test_that("LpiQcTBDSpecies does not fail when using data from the database", {
 
   CloseDatabaseConnection(conn)
 })
+
+test_that("LpiQcDuplicateSpecies returns a dataframe of points with unknowns that resolved to duplicate species", {
+  expected <- tibble::tibble(Park = c("LAKE"),
+                                 SpringCode = c("LAKE_P_BLUE0"),
+                                 SpringName = c("Blue Point"),
+                                 VisitType = c("Primary"),
+                                 FieldSeason = c("2019"),
+                                 StartDate = c("4/4/2019"),
+                                 UnknownPlantCode = c("NA, UNK4"),
+                                 TransectNumber = c(2),
+                                 LocationOnTape_m = c(1),
+                                 Stratum = "B",
+                                 Canopy = "PLANT1")
+  expect_mapequal(LpiQcDuplicateSpecies(path.to.data = "./dummy-data/bad", data.source = "local"), expected)
+})
+
+test_that("LpiQcDuplicateSpecies returns an empty dataframe when no duplicate species are present", {
+  expect_equal(nrow(LpiQcDuplicateSpecies(path.to.data = "./dummy-data/ok", data.source = "local")), 0)
+})
