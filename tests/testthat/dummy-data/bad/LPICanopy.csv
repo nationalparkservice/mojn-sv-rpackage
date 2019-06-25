@@ -4,7 +4,7 @@ LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,0.5,Exact,NA,NA
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1,Exact,NA,B,Plant,PLANT2,PLANT2 desc,Y,NA,N,Raw
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1.5,Exact,NA,B,Other,OTHER3,OTHER3 desc,NA,NA,NA,Raw
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,N,B,Other,OTHER2,OTHER2 desc,NA,NA,NA,Raw
-LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,N,B,Plant,PLANT1,PLANT1 desc,N,NA,N,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,[No Data],N,B,Plant,PLANT1,PLANT1 desc,N,NA,N,Raw
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,N,B,Plant,UNK,UNK desc,ND,UNK1,Y,Raw
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Other,OTHER2,OTHER2 desc,NA,NA,NA,Raw
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Plant,PLANT1,PLANT1 desc,N,NA,N,Raw

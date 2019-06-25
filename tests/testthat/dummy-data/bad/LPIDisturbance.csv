@@ -1,0 +1,25 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,TransectNumber,LocationOnTape_m,DataAccuracy,WaterPresent,DisturbanceCode,DisturbanceDescription,DataProcessingLevel
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,0.5,Exact,NA,ND,[No Data],Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1,Exact,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1.5,Exact,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,0.5,Approximate,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1,Approximate,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1.5,Approximate,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,0.5,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,1,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,1.5,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,0.5,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,1,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,1.5,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,0.5,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,1,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,1.5,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,0,0.5,Approximate,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,0,1,Approximate,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,0,1.5,Approximate,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,1,0.5,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,1,1,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,1,1.5,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,2,0.5,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,2,1,Exact,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,2,1.5,Exact,N,NA,NA,Raw
