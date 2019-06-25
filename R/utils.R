@@ -120,14 +120,17 @@ ReadAndFilterData <- function(conn, path.to.data, park, spring, field.season, da
       dplyr::filter(SpringCode == spring)
   }
 
-  if(!missing(field.season)) {
+  if(!missing(field.season) && ("FieldSeason" %in% names(filtered.data))) {
     filtered.data %<>%
       dplyr::filter(FieldSeason == field.season)
   }
 
   filtered.data %<>%
-    dplyr::collect() %>%
-    dplyr::mutate(FieldSeason = as.character(FieldSeason))
+    dplyr::collect()
+
+  if ("FieldSeason" %in% names(filtered.data)) {
+    filtered.data %<>% dplyr::mutate(FieldSeason = as.character(FieldSeason))
+  }
 
   return(filtered.data)
 }
