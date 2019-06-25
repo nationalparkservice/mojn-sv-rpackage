@@ -21,7 +21,7 @@ QcReportDPL(conn, path.to.data, park, spring, field.season,
 \item{data.source}{Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.}
 }
 \value{
-A tibble with columns Park, SpringCode, SpringName, SpringCategory, VisitType, FieldSeason, StartDate, TransectNumber, DataProcessingLevel, DataProcessingLevelDate, DataProcessingLevelNote
+A tibble with columns Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, DataProcessingLevel, DataProcessingLevelDate, DataProcessingLevelNote
 }
 \description{
 Report DPL by transect for all SOPs
