@@ -133,20 +133,82 @@ QcListNoData <- function(conn, path.to.data, park, spring, field.season, data.so
   tree.count <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "TreeCount")
   veg.inv <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "VegetationInventory")
 
-  nodata.regex <- "(^\\[?(N|n)o\\s?(D|d)ata\\]?$)|^(N|n)(D|d)$"
+  nodata.regex <- "(^\\[?(N|n)o\\s?(D|d)ata\\]?$)|^(N|n)(D|d)$"  # Use this to find variations of [No Data] and ND
 
-  spring.info <- dplyr::bind_rows(dplyr::filter_all(spring.info, dplyr::any_vars(grepl(nodata.regex, .))),
-                                  dplyr::filter_at(spring.info, dplyr::vars(-Notes), dplyr::any_vars(is.na(.)))) %>%
-    unique()
-  spring.visit %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .)))
-  lpi.tsect %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .)))
-  tree.tsect %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .)))
-  veg.inv.tsect %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .)))
-  lpi.canopy %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .)))
-  lpi.surface %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .)))
-  lpi.disturb %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .)))
-  tree.count %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .)))
-  veg.inv %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .)))
+  # Spring
+  spring.info <- dplyr::bind_rows(dplyr::filter_all(spring.info, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
+                                  dplyr::filter_at(spring.info, dplyr::vars(-Notes), dplyr::any_vars(is.na(.)))  # Look for rows where any column except Notes was left blank
+  ) %>%
+    unique() %>%  # Get rid of duplicates
+    dplyr::arrange(SpringCode)  # Sort by spring code
+
+  # SpringVisit
+  spring.visit <- dplyr::bind_rows(dplyr::filter_all(spring.visit, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
+                                   dplyr::filter_at(spring.visit, dplyr::vars(FieldSeason, StartDate, EndDate, ProtocolVersion), dplyr::any_vars(is.na(.)))  # Check for required columns left blank
+  ) %>%
+    unique() %>%
+    dplyr::arrange(SpringCode, desc(StartDate))
+
+  # LPITransect
+  lpi.tsect <- dplyr::bind_rows(dplyr::filter_all(lpi.tsect, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
+                                dplyr::filter_at(lpi.tsect, dplyr::vars(StartTime, EndTime, TransectNumber, Wind, SkyCondition, DataProcessingLevel, DataProcessingLevelDate), dplyr::any_vars(is.na(.)))  # Check for required columns left blank
+  ) %>%
+    unique() %>%
+    dplyr::arrange(SpringCode, desc(StartDate), TransectNumber)
+
+  # TreeCountTransect
+  tree.tsect <- dplyr::bind_rows(dplyr::filter_all(tree.tsect, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
+                                 dplyr::filter_at(tree.tsect, dplyr::vars(StartTime, EndTime, TransectNumber, DataProcessingLevel, DataProcessingLevelDate), dplyr::any_vars(is.na(.)))  # Check for required columns left blank
+  ) %>%
+    unique() %>%
+    dplyr::arrange(SpringCode, desc(StartDate), TransectNumber)
+
+  # VegetationInventoryTransect
+  veg.inv.tsect <- dplyr::bind_rows(dplyr::filter_all(veg.inv.tsect, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
+                                    dplyr::filter_at(veg.inv.tsect, dplyr::vars(StartTime, EndTime, TransectNumber, DataProcessingLevel, DataProcessingLevelDate), dplyr::any_vars(is.na(.)))  # Check for required columns left blank
+  ) %>%
+    unique() %>%
+    dplyr::arrange(SpringCode, desc(StartDate), TransectNumber)
+
+  # LPICanopy
+  lpi.canopy <- dplyr::bind_rows(dplyr::filter_all(lpi.canopy, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
+                                 dplyr::filter_at(lpi.canopy, dplyr::vars(WaterPresent, LocationOnTape_m, DataAccuracy), dplyr::any_vars(is.na(.))),  # Check for required columns left blank
+                                 dplyr::filter(lpi.canopy, CanopyType == "Plant") %>%
+                                   dplyr::filter_at(dplyr::vars(Stratum, Canopy, CanopyDescription, Invasive, IsDead), dplyr::any_vars(is.na(.))),  # Check for columns required for plant canopy that were left blank
+                                 dplyr::filter(lpi.canopy, CanopyType == "Other") %>%
+                                   dplyr::filter_at(dplyr::vars(Stratum, Canopy, CanopyDescription), dplyr::any_vars(is.na(.)))  # Check for columns required for "other" canopy that were left blank
+  ) %>%
+    unique() %>%
+    dplyr::arrange(SpringCode, desc(StartDate), TransectNumber, LocationOnTape_m, desc(Stratum))
+
+  # LPISoilSurface
+  lpi.surface <- dplyr::bind_rows(dplyr::filter_all(lpi.surface, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
+                                  dplyr::filter_at(lpi.surface, dplyr::vars(SoilSurfaceCode, SoilSurfaceDescription), dplyr::any_vars(is.na(.))),  # Check for required columns left blank
+                                  dplyr::filter(lpi.surface, SoilSurfaceCode == "PB") %>%
+                                    dplyr::filter_at(dplyr::vars(SoilSurfacePlantCode, SoilSurfacePlantSpecies), dplyr::any_vars(is.na(.)))  # Make sure plant code/species aren't blank if soil surface is plant base
+  ) %>%
+    unique() %>%
+    dplyr::arrange(SpringCode, desc(StartDate), TransectNumber, LocationOnTape_m)
+
+  # LPIDisturbance
+  lpi.disturb %<>% dplyr::filter_all(dplyr::any_vars(grepl(nodata.regex, .))) %>%  # Look for rows where any column has an ND or [No Data] value
+    dplyr::arrange(SpringCode, desc(StartDate), TransectNumber, LocationOnTape_m)
+
+  # TreeCount
+  tree.count <- dplyr::bind_rows(dplyr::filter_all(tree.count, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
+                                 dplyr::filter(tree.count, !is.na(USDAPlantsCode)) %>%
+                                   dplyr::filter_at(dplyr::vars(LiveAdultCount, LiveJuvenileCount, DeadAdultCount, DeadJuvenileCount), dplyr::any_vars(is.na(.)))  # Check for required columns left blank
+  ) %>%
+    unique() %>%
+    dplyr::arrange(SpringCode, desc(StartDate), TransectNumber, USDAPlantsCode)
+
+  # VegetationInventory
+  veg.inv <- dplyr::bind_rows(dplyr::filter_all(veg.inv, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
+                              dplyr::filter_at(veg.inv, dplyr::vars(USDAPlantsCode, ScientificName, Invasive), dplyr::any_vars(is.na(.))),  # Check for required columns left blank
+                              dplyr::filter(veg.inv, USDAPlantsCode == "TBD" & is.na(UnknownPlantCode))  # Make sure unknown plant code isn't blank if species was entered as TBD
+  ) %>%
+    unique() %>%
+    dplyr::arrange(SpringCode, desc(StartDate), TransectNumber, USDAPlantsCode)
 
   no.data <- list(Spring = spring.info,
                   SpringVisit = spring.visit,
