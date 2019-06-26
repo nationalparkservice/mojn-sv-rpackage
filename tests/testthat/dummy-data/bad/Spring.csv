@@ -1,19 +1,4 @@
 Park,SpringCode,SpringName,SpringCategory,ProtectedStatus,TransectLength_m,PointInterceptSpacing_m,LengthClass,TransectBearing,AccessDirections,Notes
-DEVA,DEVA_P_MOUN0,Mound,Wetland/pool,NA,15,0.99,501m - 1000m,NA,NA,NA
-DEVA,DEVA_P_NEVA0,Nevares,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
-DEVA,DEVA_P_SARA0,Saratoga,Wetland/pool,NA,15,0.99,501m - 1000m,NA,NA,NA
-DEVA,DEVA_P_TEXA0,Texas,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
-DEVA,DEVA_P_TRAV0,Travertine,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
-JOTR,JOTR_P_COT0235,Cottonwood,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
-JOTR,JOTR_P_FORT0,Fortynine Palms,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
-JOTR,JOTR_P_SMIT0,Smith Water,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
 LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,NA,15,0.5,501m - 1000m,4,NA,NA
 LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,NA,15,0.5,501m - 1000m,NA,NA,NA
-LAKE,LAKE_P_GRA0058,Grapevine,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
 LAKE,LAKE_P_ROGE0,Rogers,Stream-like,NA,15,0.5,501m - 1000m,78,NA,NA
-MOJA,MOJA_P_COR0060,Cornfield,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
-MOJA,MOJA_P_MCSP0,MC Spring,Wetland/pool,NA,15,0.99,501m - 1000m,NA,NA,NA
-MOJA,MOJA_P_PIU0161,Piute,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
-PARA,PARA_P_CHI0190,Chill Heal,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA
-PARA,PARA_P_PAKO0,Pakoon,Wetland/pool,NA,15,0.99,501m - 1000m,NA,NA,NA
-PARA,PARA_P_TASS0,Tassi,Stream-like,NA,15,0.99,501m - 1000m,NA,NA,NA

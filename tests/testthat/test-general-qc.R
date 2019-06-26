@@ -23,3 +23,10 @@ test_that("QcReportDPL returns a dataframe of that lists DPL by spring, SOP, dat
   expect_mapequal(dpl, expected)
 })
 
+test_that("QcListNoData returns a list of dataframes containing rows that are missing data", {
+  no.data <- QcListNoData(path.to.data = "./dummy-data/bad", data.source = "local")
+  load("./known-output/QcListNoData.Rdata")
+
+  expect_mapequal(no.data, expected)
+})
+
