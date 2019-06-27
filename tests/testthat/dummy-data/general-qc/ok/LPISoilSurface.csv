@@ -1,0 +1,4 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,TransectNumber,LocationOnTape_m,DataAccuracy,WaterPresent,SoilSurfaceCode,SoilSurfaceDescription,SoilSurfacePlantCode,SoilSurfacePlantSpecies,UnknownPlantCode,DataProcessingLevel
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,0.5,Exact,,PB,Plant Base,TBD,_To Be Determined,Q,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1,Exact,,SA,Sand,,,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1.5,Exact,,SA,Sand,,,NA,Raw

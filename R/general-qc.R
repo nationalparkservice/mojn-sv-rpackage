@@ -45,7 +45,7 @@ QcUnknownSpeciesID <- function(conn, path.to.data, park, spring, field.season, d
     unique() %>%
     dplyr::group_by(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, UnknownPlantCode) %>%
     dplyr::mutate(DupIDCount = dplyr::n()) %>%
-    dplyr::filter(DupIDCount > 1 & !is.na(UnknownPlantCode)) %>%
+    dplyr::filter(DupIDCount > 1 & !is.na(UnknownPlantCode) & UnknownPlantCode != "NA") %>%
     dplyr::mutate(USDAPlantsCode = paste(USDAPlantsCode, collapse = ", ")) %>%
     dplyr::select(-DupIDCount) %>%
     dplyr::ungroup() %>%
@@ -80,20 +80,25 @@ QcReportDPL <- function(conn, path.to.data, park, spring, field.season, data.sou
   lpi <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "LPITransect")
   tree <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "TreeCountTransect")
   sp.inv <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "VegetationInventoryTransect")
+  spring.visit <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "SpringVisit")
 
   lpi %<>%
-    dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, DataProcessingLevel, DataProcessingLevelDate, DataProcessingLevelNote) %>%
-    dplyr::mutate(SOP = "LPI")
+    dplyr::mutate(SOP = "LPI") %>%
+    dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, SOP, StartDate, TransectNumber, DataProcessingLevel, DataProcessingLevelDate, DataProcessingLevelNote)
 
   tree %<>%
-    dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, DataProcessingLevel, DataProcessingLevelDate, DataProcessingLevelNote) %>%
-    dplyr::mutate(SOP = "TreeCount")
+    dplyr::mutate(SOP = "TreeCount") %>%
+    dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, SOP, StartDate, TransectNumber, DataProcessingLevel, DataProcessingLevelDate, DataProcessingLevelNote)
 
   sp.inv %<>%
-    dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, DataProcessingLevel, DataProcessingLevelDate, DataProcessingLevelNote) %>%
-    dplyr::mutate(SOP = "VegetationInventory")
+    dplyr::mutate(SOP = "VegetationInventory") %>%
+    dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, SOP, StartDate, TransectNumber, DataProcessingLevel, DataProcessingLevelDate, DataProcessingLevelNote)
 
-  dpl <- dplyr::bind_rows(lpi, tree, sp.inv) %>%
+  spring.visit %<>%
+    dplyr::mutate(SOP = "SpringVisit", "TransectNumber" = NA) %>%
+    dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, SOP, StartDate, TransectNumber, DataProcessingLevel, DataProcessingLevelDate, DataProcessingLevelNote)
+
+  dpl <- dplyr::bind_rows(lpi, tree, sp.inv, spring.visit) %>%
     unique()
 
   return(dpl)
@@ -151,21 +156,24 @@ QcListNoData <- function(conn, path.to.data, park, spring, field.season, data.so
 
   # LPITransect
   lpi.tsect <- dplyr::bind_rows(dplyr::filter_all(lpi.tsect, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
-                                dplyr::filter_at(lpi.tsect, dplyr::vars(StartTime, EndTime, TransectNumber, Wind, SkyCondition, DataProcessingLevel, DataProcessingLevelDate), dplyr::any_vars(is.na(.)))  # Check for required columns left blank
+                                dplyr::filter_at(lpi.tsect, dplyr::vars(StartTime, EndTime, TransectNumber, Wind, SkyCondition, DataProcessingLevel, DataProcessingLevelDate), dplyr::any_vars(is.na(.))),  # Check for required columns left blank
+                                dplyr::filter(lpi.tsect, grepl("^0{1,2}:00(:00)?$",StartTime) | grepl("^0{1,2}:00(:00)?$", EndTime))  # Check for missing times
   ) %>%
     unique() %>%
     dplyr::arrange(SpringCode, desc(StartDate), TransectNumber)
 
   # TreeCountTransect
   tree.tsect <- dplyr::bind_rows(dplyr::filter_all(tree.tsect, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
-                                 dplyr::filter_at(tree.tsect, dplyr::vars(StartTime, EndTime, TransectNumber, DataProcessingLevel, DataProcessingLevelDate), dplyr::any_vars(is.na(.)))  # Check for required columns left blank
+                                 dplyr::filter_at(tree.tsect, dplyr::vars(StartTime, EndTime, TransectNumber, DataProcessingLevel, DataProcessingLevelDate), dplyr::any_vars(is.na(.))),  # Check for required columns left blank
+                                 dplyr::filter(tree.tsect, grepl("^0{1,2}:00(:00)?$",StartTime) | grepl("^0{1,2}:00(:00)?$", EndTime))  # Check for missing times
   ) %>%
     unique() %>%
     dplyr::arrange(SpringCode, desc(StartDate), TransectNumber)
 
   # VegetationInventoryTransect
   veg.inv.tsect <- dplyr::bind_rows(dplyr::filter_all(veg.inv.tsect, dplyr::any_vars(grepl(nodata.regex, .))),  # Look for rows where any column has an ND or [No Data] value
-                                    dplyr::filter_at(veg.inv.tsect, dplyr::vars(StartTime, EndTime, TransectNumber, DataProcessingLevel, DataProcessingLevelDate), dplyr::any_vars(is.na(.)))  # Check for required columns left blank
+                                    dplyr::filter_at(veg.inv.tsect, dplyr::vars(StartTime, EndTime, TransectNumber, DataProcessingLevel, DataProcessingLevelDate), dplyr::any_vars(is.na(.))),  # Check for required columns left blank
+                                    dplyr::filter(veg.inv.tsect, grepl("^0{1,2}:00(:00)?$",StartTime) | grepl("^0{1,2}:00(:00)?$", EndTime))  # Check for missing times
   ) %>%
     unique() %>%
     dplyr::arrange(SpringCode, desc(StartDate), TransectNumber)

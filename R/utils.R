@@ -83,7 +83,7 @@ SaveDataToCsv <- function(conn, dest.folder, create.folders = FALSE, overwrite =
   for (view.name in analysis.views) {
     df <- dplyr::tbl(conn, dbplyr::in_schema("analysis", view.name)) %>%
       dplyr::collect()
-    readr::write_csv(df, file.path(dest.folder, paste0(view.name, ".csv")), na = "NA", append = FALSE, col_names = TRUE)
+    readr::write_csv(df, file.path(dest.folder, paste0(view.name, ".csv")), na = "", append = FALSE, col_names = TRUE)
   }
 }
 
@@ -102,12 +102,96 @@ SaveDataToCsv <- function(conn, dest.folder, create.folders = FALSE, overwrite =
 #' @importFrom magrittr %>% %<>%
 #'
 ReadAndFilterData <- function(conn, path.to.data, park, spring, field.season, data.source = "database", data.name) {
+  col.spec <- list(Spring = readr::cols(TransectLength_m = readr::col_double(),
+                                 PointInterceptSpacing_m = readr::col_double(),
+                                 TransectBearing = readr::col_integer(),
+                                 AccessDirections = readr::col_character(),
+                                 Notes = readr::col_character()),
+                   SpringVisit = readr::cols(FieldSeason = readr::col_character(),
+                                      StartDate = readr::col_character(),
+                                      EndDate = readr::col_character(),
+                                      Notes = readr::col_character(),
+                                      DataProcessingLevelDate = readr::col_datetime(format = ""),
+                                      DataProcessingLevelNote = readr::col_character()),
+                   LPITransect = readr::cols(FieldSeason = readr::col_integer(),
+                                             StartDate = readr::col_character(),
+                                             StartTime = readr::col_character(),
+                                             EndTime = readr::col_character(),
+                                             TransectNumber = readr::col_integer(),
+                                             Wind = readr::col_character(),
+                                             SkyCondition = readr::col_character(),
+                                             Notes = readr::col_character(),
+                                             DataProcessingLevelDate = readr::col_datetime(format = ""),
+                                             DataProcessingLevelNote = readr::col_character()),
+                   TreeCountTransect = readr::cols(FieldSeason = readr::col_integer(),
+                                                   StartDate = readr::col_character(),
+                                                   StartTime = readr::col_character(),
+                                                   EndTime = readr::col_character(),
+                                                   TransectNumber = readr::col_integer(),
+                                                   Notes = readr::col_character(),
+                                                   DataProcessingLevelDate = readr::col_datetime(format = ""),
+                                                   DataProcessingLevelNote = readr::col_character()),
+                   VegetationInventoryTransect = readr::cols(FieldSeason = readr::col_integer(),
+                                                             StartDate = readr::col_character(),
+                                                             StartTime = readr::col_character(),
+                                                             EndTime = readr::col_character(),
+                                                             TransectNumber = readr::col_integer(),
+                                                             Notes = readr::col_character(),
+                                                             DataProcessingLevelDate = readr::col_datetime(format = ""),
+                                                             DataProcessingLevelNote = readr::col_character()),
+                   LPICanopy = readr::cols(FieldSeason = readr::col_integer(),
+                                           StartDate = readr::col_character(),
+                                           TransectNumber = readr::col_integer(),
+                                           LocationOnTape_m = readr::col_double(),
+                                           WaterPresent = readr::col_character(),
+                                           Canopy = readr::col_character(),
+                                           Invasive = readr::col_character(),
+                                           UnknownPlantCode = readr::col_character(),
+                                           IsDead = readr::col_character()
+                                           ),
+                   LPIDisturbance = readr::cols(FieldSeason = readr::col_integer(),
+                                                StartDate = readr::col_character(),
+                                                TransectNumber = readr::col_integer(),
+                                                LocationOnTape_m = readr::col_double(),
+                                                WaterPresent = readr::col_character(),
+                                                DisturbanceCode = readr::col_character(),
+                                                DisturbanceDescription = readr::col_character()),
+                   LPISoilSurface = readr::cols(FieldSeason = readr::col_integer(),
+                                                StartDate = readr::col_character(),
+                                                TransectNumber = readr::col_integer(),
+                                                LocationOnTape_m = readr::col_double(),
+                                                WaterPresent = readr::col_character(),
+                                                SoilSurfaceCode = readr::col_character(),
+                                                SoilSurfaceDescription = readr::col_character(),
+                                                SoilSurfacePlantCode = readr::col_character(),
+                                                SoilSurfacePlantSpecies = readr::col_character(),
+                                                UnknownPlantCode = readr::col_character()),
+                   TreeCount = readr::cols(FieldSeason = readr::col_integer(),
+                                           StartDate = readr::col_character(),
+                                           TransectNumber = readr::col_integer(),
+                                           USDAPlantsCode = readr::col_character(),
+                                           ScientificName = readr::col_character(),
+                                           UnknownPlantCode = readr::col_character(),
+                                           LiveAdultCount = readr::col_integer(),
+                                           LiveJuvenileCount = readr::col_integer(),
+                                           DeadAdultCount = readr::col_integer(),
+                                           DeadJuvenileCount = readr::col_integer(),
+                                           Notes = readr::col_character()),
+                   VegetationInventory = readr::cols(FieldSeason = readr::col_integer(),
+                                                     StartDate = readr::col_character(),
+                                                     TransectNumber = readr::col_integer(),
+                                                     USDAPlantsCode = readr::col_character(),
+                                                     ScientificName = readr::col_character(),
+                                                     UnknownPlantCode = readr::col_character(),
+                                                     Invasive = readr::col_character(),
+                                                     Notes = readr::col_character()))
+
   if (!(data.source %in% c("database", "local"))) {
     stop("Please choose either 'database' or 'local' for data.source")
   } else if (data.source == "database") {
     filtered.data <- dplyr::tbl(conn, dbplyr::in_schema("analysis", data.name))
   } else if (data.source == "local") {
-    filtered.data <- readr::read_csv(file.path(path.to.data, paste0(data.name, ".csv")))
+    filtered.data <- readr::read_csv(file.path(path.to.data, paste0(data.name, ".csv")), na = "", col_types = col.spec[[data.name]])
   }
 
   if(!missing(park)) {
@@ -126,7 +210,8 @@ ReadAndFilterData <- function(conn, path.to.data, park, spring, field.season, da
   }
 
   filtered.data %<>%
-    dplyr::collect()
+    dplyr::collect() %>%
+    dplyr::mutate_if(is.character, trimws)
 
   if ("FieldSeason" %in% names(filtered.data)) {
     filtered.data %<>% dplyr::mutate(FieldSeason = as.character(FieldSeason))

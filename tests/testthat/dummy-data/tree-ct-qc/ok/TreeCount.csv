@@ -1,0 +1,4 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,TransectNumber,USDAPlantsCode,ScientificName,UnknownPlantCode,LiveAdultCount,LiveJuvenileCount,DeadAdultCount,DeadJuvenileCount,Notes,DataProcessingLevel
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,,,,,,,,,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,WAFI,Washingtonia filifera,NA,0,0,0,1,,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,POFRF3,Populus fremontii ssp. Fremontii,NA,0,0,0,1,,Raw
