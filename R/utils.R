@@ -87,6 +87,45 @@ SaveDataToCsv <- function(conn, dest.folder, create.folders = FALSE, overwrite =
   }
 }
 
+#' Raw data dump
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param park Optional. Four-letter park code to filter on, e.g. "MOJA".
+#' @param spring Optional. Spring code to filter on, e.g. "LAKE_P_BLUE0".
+#' @param field.season Optional. Field season name to filter on, e.g. "2019".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#'
+#' @return A list of dataframes containing raw spring vegetation data.
+#' @export
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+GetRawData <- function(conn, path.to.data, park, spring, field.season, data.source = "database") {
+  spring.info <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "Spring")
+  spring.visit <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "SpringVisit")
+  lpi.tsect <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "LPITransect")
+  tree.tsect <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "TreeCountTransect")
+  veg.inv.tsect <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "VegetationInventoryTransect")
+  lpi.canopy <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "LPICanopy")
+  lpi.surface <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "LPISoilSurface")
+  lpi.disturb <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "LPIDisturbance")
+  tree.count <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "TreeCount")
+  veg.inv <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "VegetationInventory")
+
+  data.dump <- list(Spring = spring.info,
+                    SpringVisit = spring.visit,
+                    LPITransect = lpi.tsect,
+                    TreeCountTransect = tree.tsect,
+                    VegetationInventoryTransect = veg.inv.tsect,
+                    LPICanopy = lpi.canopy,
+                    LPISoilSurface = lpi.surface,
+                    LPIDisturbance = lpi.disturb,
+                    TreeCount = tree.count,
+                    VegetationInventory = veg.inv)
+  return(data.dump)
+}
+
 #' Read spring vegetation data from database or .csv
 #'
 #' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
