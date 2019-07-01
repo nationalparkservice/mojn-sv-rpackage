@@ -1,0 +1,7 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,StartTime,EndTime,TransectNumber,Notes,DataProcessingLevel,DataProcessingLevelDate,DataProcessingLevelNote
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,13:25:00,13:30:00,0,NA,Raw,2019-05-21T14:50:43Z,NA
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,15:15:00,15:18:00,1,NA,Raw,2019-05-21T14:51:59Z,NA
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,11:54:00,12:03:00,2,NA,Raw,2019-05-21T14:53:08Z,NA
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,12:13:00,12:15:00,0,No trees,Raw,2019-05-21T16:49:07Z,NA
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,12:46:00,12:47:00,1,No trees,Raw,2019-05-21T16:49:43Z,NA
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,15:02:00,15:04:00,2,NA,Raw,2019-05-21T16:50:07Z,NA

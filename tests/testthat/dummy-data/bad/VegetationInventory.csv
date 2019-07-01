@@ -1,0 +1,19 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,TransectNumber,USDAPlantsCode,ScientificName,Invasive,UnknownPlantCode,Notes,DataProcessingLevel
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,0,PLANT2,PLANT2 species,N,UNK7,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,0,PLANT2,PLANT2 species,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,0,PLANT3,PLANT3 species,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,1,PLANT4,PLANT4 species,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,1,PLANT5,PLANT5 species,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,1,PLANT6,PLANT6 species,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,2,PLANT7,PLANT7 species,ND,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,2,PLANT8,PLANT8 species,N,NA,NA,Raw
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,2,PLANT9,PLANT9 species,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,PLANT10,PLANT10 species,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,TBD,_To Be Determined,ND,UNK3,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,PLANT11,PLANT11 species,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,PLANT12,PLANT12 species,ND,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,TBD,_To Be Determined,ND,UNK2,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,PLANT1,PLANT1 species,Y,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,PLANT12,PLANT12 species,ND,UNK2,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,PLANT3,PLANT3 species,N,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,PLANT13,PLANT13 species,N,NA,NA,Raw

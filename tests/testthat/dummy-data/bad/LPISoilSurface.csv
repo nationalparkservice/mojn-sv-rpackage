@@ -1,0 +1,20 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,TransectNumber,LocationOnTape_m,DataAccuracy,WaterPresent,SoilSurfaceCode,SoilSurfaceDescription,SoilSurfacePlantCode,SoilSurfacePlantSpecies,UnknownPlantCode,DataProcessingLevel
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,0.5,Exact,NA,SA,Sand,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1,Exact,NA,SA,Sand,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1.5,Exact,NA,SA,Sand,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,0.5,Approximate,NA,D,Duff,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1,Approximate,NA,ND,Duff,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1.5,Approximate,NA,D,Duff,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,2,Approximate,NA,D,Duff,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,NA,SR,Small rock,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,NA,SR,Small rock,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1.5,Exact,NA,PB,Plant Base,TBD,TBD,UNK4,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,0.5,Exact,N,D,Duff,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,1,Exact,N,PB,Plant Base,TBD,TBD,UNK2,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,1.5,Exact,N,SR,Small rock,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,0.5,Exact,N,SR,Small rock,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,1,Exact,N,SR,Small rock,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,1.5,Exact,N,LR,Large rock,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,0.5,Exact,N,S,Bare Soil,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,1,Exact,N,D,Duff,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,1.5,Exact,N,LR,Large rock,NA,NA,NA,Raw

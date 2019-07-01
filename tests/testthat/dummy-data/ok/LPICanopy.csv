@@ -1,0 +1,29 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,TransectNumber,LocationOnTape_m,DataAccuracy,WaterPresent,Stratum,CanopyType,Canopy,CanopyDescription,Invasive,UnknownPlantCode,IsDead,DataProcessingLevel
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,0.5,Exact,NA,NA,None,NA,NA,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1,Exact,NA,B,Plant,PLANT2,PLANT2 desc,Y,NA,N,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1.5,Exact,NA,B,Other,OTHER3,OTHER3 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1.5,Exact,NA,M,Plant,PLANT1,PLANT1 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,0.5,Exact,NA,NA,None,NA,NA,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1,Exact,NA,B,Plant,PLANT2,PLANT2 desc,Y,NA,N,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1.5,Exact,NA,B,Other,OTHER3,OTHER3 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,N,B,Other,OTHER2,OTHER2 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,N,B,Plant,PLANT1,PLANT1 desc,N,NA,N,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,N,B,Plant,UNK,UNK desc,ND,UNK1,Y,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Other,OTHER2,OTHER2 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Plant,PLANT1,PLANT1 desc,N,NA,N,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,N,B,Plant,TBD,TBD desc,N,UNK4,N,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1.5,Exact,N,NA,None,NA,NA,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,0.5,Exact,N,B,Other,OTHER1,OTHER1 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,0.5,Exact,N,B,Plant,PLANT2,PLANT2 desc,N,NA,N,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,1,Exact,N,B,Other,OTHER1,OTHER1 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,1,Exact,N,B,Plant,UNK,UNK desc,ND,UNK2,N,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,1.5,Exact,N,B,Other,OTHER1,OTHER1 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,0,1.5,Exact,N,B,Plant,UNK,UNK desc,ND,UNK1,N,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,0.5,Exact,N,B,Plant,PLANT3,PLANT3 desc,ND,NA,N,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,1,Exact,N,B,Other,OTHER3,OTHER3 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,1,Exact,N,B,Plant,PLANT3,PLANT3 desc,ND,NA,N,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,1,1.5,Exact,N,NA,None,NA,NA,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,0.5,Exact,N,B,Other,OTHER2,OTHER2 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,1,Exact,N,B,Other,OTHER2,OTHER2 desc,NA,NA,NA,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,1,Exact,N,B,Plant,TBD,TBD desc,N,UNK5,N,Raw
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,2,1.5,Exact,N,B,Plant,TBD,TBD desc,N,UNK5,N,Raw

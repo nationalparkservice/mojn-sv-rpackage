@@ -1,0 +1,4 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,TransectNumber,USDAPlantsCode,ScientificName,Invasive,UnknownPlantCode,Notes,DataProcessingLevel
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,SCBA,Schismus barbatus,Y,NA,,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,BRRU2,Bromus rubens,ND,A,,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,TBD,_To Be Determined,ND,B,,Raw

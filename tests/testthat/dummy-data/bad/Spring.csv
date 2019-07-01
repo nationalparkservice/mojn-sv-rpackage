@@ -1,0 +1,4 @@
+Park,SpringCode,SpringName,SpringCategory,ProtectedStatus,TransectLength_m,PointInterceptSpacing_m,LengthClass,TransectBearing,AccessDirections,Notes
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,NA,15,0.5,501m - 1000m,4,NA,NA
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,NA,15,0.5,501m - 1000m,NA,NA,NA
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,NA,15,0.5,501m - 1000m,78,NA,NA
