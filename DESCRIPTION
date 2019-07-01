@@ -3,8 +3,8 @@ Title: QC, Analysis, and Visualization of Spring Vegetation Data
 Version: 0.0.0.9000
 Authors@R: c(person("Sarah", "Wright", email = "sarah_wright@nps.gov", role = c("aut", "cre")),
              person("Nicole", "Hupp", email = "nicole_hupp@nps.gov", role = c("aut")))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.5.1)
+Description: This package provides a collection of straightforward functions for data quality control, analysis, and visualization. It was developed specifically for data collected as part of the NPS Mojave Desert Network's long-term Spring Vegetation monitoring protocol. Out of the box, this package will be of limited use for other monitoring protocols, but the source code may be a useful jumping-off point for anyone who is interested in implementing a similar package.
+Depends: R (>= 3.5.0)
 License: CC0
 Encoding: UTF-8
 LazyData: true
@@ -12,4 +12,9 @@ RoxygenNote: 6.1.1
 Imports: 
     pool,
     magrittr,
-    odbc
+    odbc,
+    readr,
+    dplyr,
+    dbplyr
+Suggests: 
+    testthat
