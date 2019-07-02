@@ -27,5 +27,5 @@ A tibble with columns Park, SpringCode, SpringName, FieldSeason, TransectNumber,
 Comparison of species detected in LPI and vegetation inventory
 }
 \details{
-Only includes data from visits labeled 'Primary.' Currently uses LPI canopy data only (plants recorded as soil surface are not included in species counts).
+Omits TBD and UNK species from counts. Only includes data from visits labeled 'Primary.' Currently uses LPI canopy data only (plants recorded as soil surface are not included in species counts).
 }

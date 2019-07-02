@@ -10,7 +10,7 @@
 #' @return A tibble with columns Park, SpringCode, SpringName, FieldSeason, TransectNumber, LPISpeciesCount, InventorySpeciesCount
 #' @export
 #'
-#' @details Only includes data from visits labeled 'Primary.' Currently uses LPI canopy data only (plants recorded as soil surface are not included in species counts).
+#' @details Omits TBD and UNK species from counts. Only includes data from visits labeled 'Primary.' Currently uses LPI canopy data only (plants recorded as soil surface are not included in species counts).
 #'
 #' @importFrom magrittr %>% %<>%
 #'
@@ -19,7 +19,7 @@ CountSpeciesDetected <- function(conn, path.to.data, park, spring, field.season,
   sp.inv <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "VegetationInventory")
 
   lpi.canopy %<>%
-    dplyr::filter(CanopyType == "Plant" & VisitType == "Primary") %>%
+    dplyr::filter(CanopyType == "Plant" & VisitType == "Primary" & !(Canopy %in% c("UNK", "TBD"))) %>%
     dplyr::select(Park, SpringCode, SpringName, FieldSeason, TransectNumber, Canopy) %>%
     unique() %>%
     dplyr::group_by(Park, SpringCode, SpringName, FieldSeason, TransectNumber) %>%
@@ -27,7 +27,7 @@ CountSpeciesDetected <- function(conn, path.to.data, park, spring, field.season,
     dplyr::ungroup()
 
   sp.inv %<>%
-    dplyr::filter(VisitType == "Primary") %>%
+    dplyr::filter(VisitType == "Primary" & !(USDAPlantsCode %in% c("UNK", "TBD"))) %>%
     dplyr::select(Park, SpringCode, SpringName, FieldSeason, TransectNumber, USDAPlantsCode) %>%
     unique() %>%
     dplyr::group_by(Park, SpringCode, SpringName, FieldSeason, TransectNumber) %>%
