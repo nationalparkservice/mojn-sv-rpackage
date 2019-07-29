@@ -307,3 +307,73 @@ FacetTitle <- function(field.seasons, sample.sizes) {
   labels <- paste0(field.seasons, " (n = ", labels, ")")
   return(labels)
 }
+
+#' Apply some standard formatting to a ggplot object.
+#'
+#' @param p A ggplot object.
+#' @param spring The spring code.
+#' @param spring.name The spring name.
+#' @param field.seasons Either a single field season name, or a vector of field season names.
+#' @param sample.sizes A dataframe with columns SpringCode, FieldSeason, NTransects (i.e. sample size).
+#' @param plot.title The title of the plot.
+#' @param sub.title Optional custom plot subtitle.
+#' @param rotate.x.labs Boolean indicating whether to rotate x axis labels 90 degrees.
+#' @param ymax Optional maximum y limit.
+#' @param ymin Optional minimum y limit.
+#' @param xmax Optional maximum x limit.
+#' @param xmin Optional minimum x limit.
+#'
+#' @return A ggplot object.
+#'
+FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot.title, sub.title = "default", rotate.x.labs = FALSE, ymax = FALSE, ymin = FALSE, xmax = FALSE, xmin = FALSE) {
+
+  # Generate a subtitle from park and event group if subtitle not provided by user
+  if (sub.title == "default") {
+    # For multiple seasons of data, just use the spring name since season and sample size will go in the facet titles
+    if (length(field.seasons) > 1) {
+      sub.title <- spring.name
+    # Otherwise, include spring name, season and sample size
+    } else {
+      n <- sample.sizes[(sample.sizes$SpringCode == spring & sample.sizes$FieldSeason == field.seasons), ]$NTransects
+      sub.title <- paste0(spring.name, " (", field.seasons, ")", "\n", "n = ", n)
+    }
+  }
+
+  # Create facets if >1 event group
+  if (length(field.seasons) > 1) {
+    p <- p + facet_wrap(vars(FieldSeason), ncol = 2, labeller = as_labeller(function(field.seasons){facetTitle(field.seasons, sample.sizes)}))
+  }
+
+  # Add title and subtitle if not blank
+  if (plot.title != "") {
+    p <- p + labs(title = plot.title)
+  }
+  if (sub.title != "") {
+    p <- p + labs(subtitle = sub.title)
+  }
+
+  # Rotate x labels 90 degrees if rotate.x.labs is TRUE
+  if (rotate.x.labs) {
+    p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+  }
+
+  # Set ymin and ymax if provided
+  if (ymin != FALSE && ymax != FALSE) {
+    p <- p + expand_limits(y = c(ymin, ymax))
+  } else if (ymax != FALSE) {
+    p <- p + expand_limits(y = ymax)
+  } else if (ymin != FALSE) {
+    p <- p + expand_limits(y = ymin)
+  }
+
+  # Set xmin and xmax if provided
+  if (xmin != FALSE && xmax != FALSE) {
+    p <- p + expand_limits(x = c(xmin, xmax))
+  } else if (xmax != FALSE) {
+    p <- p + expand_limits(x = xmax)
+  } else if (xmin != FALSE) {
+    p <- p + expand_limits(x = xmin)
+  }
+
+  return(p)
+}
