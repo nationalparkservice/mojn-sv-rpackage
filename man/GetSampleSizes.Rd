@@ -7,10 +7,10 @@
 GetSampleSizes(data)
 }
 \arguments{
-\item{data}{A data frame with at least the following columns: SpringCode, SpringName, FieldSeason, TransectNumber}
+\item{data}{A data frame with at least the following columns: SpringCode, FieldSeason, TransectNumber.}
 }
 \value{
-A dataframe with columns for spring code, spring name, field season, and number of transects (i.e. sample size).
+A dataframe with columns for spring code, field season, and number of transects (i.e. sample size).
 }
 \description{
 Compute sample size by spring and field season
