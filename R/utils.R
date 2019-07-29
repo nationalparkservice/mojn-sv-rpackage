@@ -258,3 +258,32 @@ ReadAndFilterData <- function(conn, path.to.data, park, spring, field.season, da
 
   return(filtered.data)
 }
+
+#' Compute sample size by spring and field season
+#'
+#' @param data A data frame with at least the following columns: SpringCode, SpringName, FieldSeason, TransectNumber
+#'
+#' @return A dataframe with columns for spring code, spring name, field season, and number of transects (i.e. sample size).
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+GetSampleSizes <- function(data) {
+
+  # Check for valid input
+  required.input.cols <- c("SpringCode", "SpringName", "FieldSeason", "TransectNumber")
+
+  if (!all(required.input.cols %in% names(data))) {
+    stop("The dataframe provided does not have the correct columns")
+  } else if (nrow(data) == 0) {
+    stop("The dataframe provided contains no data")
+  }
+
+  # Get a list of plots monitored by event group
+  n.transects <- data %>%
+    dplyr::select(SpringCode, SpringName, FieldSeason, TransectNumber) %>%
+    unique() %>%
+    dplyr::group_by(SpringCode, SpringName, FieldSeason) %>%
+    dplyr::summarise(NTransects = dplyr::n()) %>%
+    dplyr::ungroup()
+
+  return(n.transects)
