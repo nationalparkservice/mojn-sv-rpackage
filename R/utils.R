@@ -287,3 +287,23 @@ GetSampleSizes <- function(data) {
     dplyr::ungroup()
 
   return(n.transects)
+}
+
+#' Create a vector of labels for plots faceted by field season
+#'
+#' @param field.seasons A vector of field season names
+#' @param sample.sizes A dataframe with columns for spring code, field season, and number of transects
+#'
+#' @return A vector of facet labels with field season and sample size information
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+FacetTitle <- function(field.seasons, sample.sizes) {
+
+  # Get the number of plots monitored in each season
+  labels <- sample.sizes[which(sample.sizes$FieldSeason %in% field.seasons), ]$NTransects
+
+  # Format labels as "YYYY (n = [# plots monitored])"
+  labels <- paste0(field.seasons, " (n = ", labels, ")")
+  return(labels)
+}
