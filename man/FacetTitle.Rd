@@ -7,12 +7,12 @@
 FacetTitle(field.seasons, sample.sizes)
 }
 \arguments{
-\item{field.seasons}{A vector of field season names}
+\item{field.seasons}{A vector of field season names.}
 
-\item{sample.sizes}{A dataframe with columns for spring code, field season, and number of transects}
+\item{sample.sizes}{A dataframe with columns for spring code, field season, and number of transects.}
 }
 \value{
-A vector of facet labels with field season and sample size information
+A vector of facet labels with field season and sample size information.
 }
 \description{
 Create a vector of labels for plots faceted by field season

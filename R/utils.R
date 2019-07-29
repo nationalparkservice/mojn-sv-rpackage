@@ -292,10 +292,10 @@ GetSampleSizes <- function(data) {
 
 #' Create a vector of labels for plots faceted by field season
 #'
-#' @param field.seasons A vector of field season names
-#' @param sample.sizes A dataframe with columns for spring code, field season, and number of transects
+#' @param field.seasons A vector of field season names.
+#' @param sample.sizes A dataframe with columns for spring code, field season, and number of transects.
 #'
-#' @return A vector of facet labels with field season and sample size information
+#' @return A vector of facet labels with field season and sample size information.
 #'
 #' @importFrom magrittr %>% %<>%
 #'
@@ -378,3 +378,4 @@ FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot
 
   return(p)
 }
+
