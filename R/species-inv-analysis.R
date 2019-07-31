@@ -33,7 +33,7 @@ names(data)[3] <- "sd"
 
 curveFigurev1 <- ggplot (data, aes(x= sites, y= richness)) + geom_point () +
    theme_bw () +
-   geom_point(color="black", shape=21, size=3, fill='black') +
+   geom_point(color="black", size=3, fill='black') +
    geom_errorbar (aes (x=sites, ymin=richness-sd, ymax=richness+sd, width=.5), color='black') +
    labs (x="Sampling Effort (# transects)", y= "Species Richness") +
    ggtitle ("Species Accumulation Curve", spring) +
@@ -44,8 +44,8 @@ curveFigurev1
 
 #Is this one better looking?
 curveFigurev2 <- ggplot (data, aes(x= sites, y= richness)) + 
-   geom_point () +
-   geom_errorbar (aes (x=sites, ymin=richness-sd, ymax=richness+sd)) +
+   geom_point (size=2) +
+   geom_errorbar (aes (x=sites, ymin=richness-sd, ymax=richness+sd, width=.2)) +
    labs (x="Sampling Effort (# transects)", y= "Species Richness") +
    ggtitle ("Species Accumulation Curve", spring) 
 
