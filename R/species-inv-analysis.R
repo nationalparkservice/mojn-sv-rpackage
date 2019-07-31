@@ -30,24 +30,11 @@ names(data)[3] <- "sd"
 
 #Generate figures in Ggplot2
 
-
-curveFigurev1 <- ggplot (data, aes(x= sites, y= richness)) + geom_point () +
-   theme_bw () +
-   geom_point(color="black", size=3, fill='black') +
-   geom_errorbar (aes (x=sites, ymin=richness-sd, ymax=richness+sd, width=.5), color='black') +
-   labs (x="Sampling Effort (# transects)", y= "Species Richness") +
-   ggtitle ("Species Accumulation Curve", spring) +
-   theme (axis.title=element_text (size=15, face="bold")
-   ) 
-
-curveFigurev1
-
-#Is this one better looking?
-curveFigurev2 <- ggplot (data, aes(x= sites, y= richness)) + 
+curveFigure <- ggplot (data, aes(x= sites, y= richness)) + 
    geom_point (size=2) +
    geom_errorbar (aes (x=sites, ymin=richness-sd, ymax=richness+sd, width=.2)) +
    labs (x="Sampling Effort (# transects)", y= "Species Richness") +
    ggtitle ("Species Accumulation Curve", spring) 
 
-curveFigurev2
+curveFigure
 
