@@ -1,35 +1,54 @@
 
 library(vegan)
+library(iNEXT)
+library(ggplot2)
+library(springvegetation)
+
+spring<- "Horsethief Canyon"
 
 
-
-
-accumulationCurve <- specaccum(x,"rarefaction",permutations=500)
-
-
-
-plot (accumulationCurve, ylim=c(0,100),xlim=c(0,20),
-     lwd=1.5, cex.lab=1.5, cex.main=1.5,
-     ci.col="lightgray",xlab="Sample Size", ylab="Number of Species", 
-     main= "Species Accumulation Curves of Blue Point Spring \n species inventory belt transect")
-     
-     
-#For one spring
-
-
-
-
-
+#Make a database connection, create an object, get the raw data for the vegetation inventory
 
 rawData<- GetRawData(OpenDatabaseConnection())
-Spring <- rawData$VegetationInventory[which(rawData$VegetationInventory$SpringName==spring),]
+inventoryDataTable <- rawData$VegetationInventory
+invDataBySpring <- rawData$VegetationInventory[which(rawData$VegetationInventory$SpringName==spring), ]
+accumDataTable <- table(invDataBySpring[, c(8,9)])
 
 
-accumulationCurve <- specaccum(x,"rarefaction",permutations=500)
+#Generate accumulation curve data using vegan
+
+accumulationCurve <-  specaccum (accumDataTable, "rarefaction", permutations=500)
 
 
-plot (accumulationCurve, ylim=c(0,50),xlim=c(0,17),
-      lwd=1.5, cex.lab=1.5, cex.main=1.5,
-      ci.col="lightgray",xlab="Sample Size", ylab="Number of Species", 
-      main= c("SAC for Species Inventory Belt Transects at", spring))
+#Data Wrangling: pull data from vegan and create table wit sites, richness, and standard deviantion
+
+data<- data.frame(accumulationCurve$sites, accumulationCurve$richness, accumulationCurve$sd)
+
+names(data)[1] <- "sites"
+names(data)[2] <- "richness"
+names(data)[3] <- "sd"
+
+
+#Generate figures in Ggplot2
+
+
+curveFigurev1 <- ggplot (data, aes(x= sites, y= richness)) + geom_point () +
+   theme_bw () +
+   geom_point(color="black", shape=21, size=3, fill='black') +
+   geom_errorbar (aes (x=sites, ymin=richness-sd, ymax=richness+sd, width=.5), color='black') +
+   labs (x="Sampling Effort (# transects)", y= "Species Richness") +
+   ggtitle ("Species Accumulation Curve", spring) +
+   theme (axis.title=element_text (size=15, face="bold")
+   ) 
+
+curveFigurev1
+
+#Is this one better looking?
+curveFigurev2 <- ggplot (data, aes(x= sites, y= richness)) + 
+   geom_point () +
+   geom_errorbar (aes (x=sites, ymin=richness-sd, ymax=richness+sd)) +
+   labs (x="Sampling Effort (# transects)", y= "Species Richness") +
+   ggtitle ("Species Accumulation Curve", spring) 
+
+curveFigurev2
 
