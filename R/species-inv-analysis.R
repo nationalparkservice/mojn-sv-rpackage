@@ -1,10 +1,9 @@
 
 library(vegan)
-library(iNEXT)
 library(ggplot2)
 library(springvegetation)
 
-spring<- "Horsethief Canyon"
+spring<- "Grapevine"
 
 
 #Make a database connection, create an object, get the raw data for the vegetation inventory
