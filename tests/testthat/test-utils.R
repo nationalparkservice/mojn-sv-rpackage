@@ -20,3 +20,20 @@ test_that("FacetTitle correctly generates titles for plot facets", {
   expect_equal(FacetTitle(c("2018", "2019"), test.data), expected)
   expect_equal(FacetTitle("2019", test.data), expected[2])
 })
+test_that("ReadAndFilterData correctly filters data", {
+  park <- ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", park = "JOTR", data.source = "local", data.name = "LPICanopy")
+  spring <- ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", spring = "LAKE_P_BLUE0", data.source = "local", data.name = "LPICanopy")
+  field.season <- ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", field.season = "2020", data.source = "local", data.name = "LPICanopy")
+  field.season.mult <- ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", field.season = c("2019", "2020"), data.source = "local", data.name = "LPICanopy")
+
+  expect_equal(unique(park$Park), "JOTR")
+  expect_equal(unique(spring$SpringCode), "LAKE_P_BLUE0")
+  expect_equal(unique(field.season$FieldSeason), "2020")
+  expect_equal(unique(field.season.mult$FieldSeason), c("2019", "2020"))
+
+  expect_error(ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", park = "MOJA", spring = "LAKE_P_BLUE0", data.source = "local", data.name = "LPICanopy"), "Data are not available for the park specified")
+  expect_error(ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", spring = "MOJA_P_MCSP0", data.source = "local", data.name = "LPICanopy"), "Data are not available for the spring specified")
+  expect_error(ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", field.season = "2018", data.source = "local", data.name = "LPICanopy"), "Data are not available for one or more of the field seasons specified")
+  expect_error(ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", spring = "MOJA_P_MCSP0", data.source = "local", data.name = "LPICanopy"), "Data are not available for the spring specified")
+  expect_error(ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", field.season = c("2019", "2018"), data.source = "local", data.name = "LPICanopy"), "Data are not available for one or more of the field seasons specified")
+})

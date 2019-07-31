@@ -234,18 +234,28 @@ ReadAndFilterData <- function(conn, path.to.data, park, spring, field.season, da
   }
 
   if(!missing(park)) {
+    if (!(park %in% (dplyr::select(filtered.data, Park) %>% dplyr::collect())$Park)) {
+      stop("Data are not available for the park specified")
+    }
     filtered.data %<>%
       dplyr::filter(Park == park)
   }
 
   if(!missing(spring)) {
+    if (!(spring %in% (dplyr::select(filtered.data, SpringCode) %>% dplyr::collect())$SpringCode)) {
+      stop("Data are not available for the spring specified")
+    }
     filtered.data %<>%
       dplyr::filter(SpringCode == spring)
   }
 
-  if(!missing(field.season) && ("FieldSeason" %in% names(filtered.data))) {
-    filtered.data %<>%
-      dplyr::filter(FieldSeason == field.season)
+  if(!missing(field.season) & ("FieldSeason" %in% colnames(filtered.data))) {
+    if (any(!(field.season %in% (dplyr::select(filtered.data, FieldSeason) %>% dplyr::collect())$FieldSeason))) {
+      stop("Data are not available for one or more of the field seasons specified")
+    } else {
+      filtered.data %<>%
+        dplyr::filter(FieldSeason %in% field.season)
+    }
   }
 
   filtered.data %<>%
