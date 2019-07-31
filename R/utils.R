@@ -372,38 +372,38 @@ FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot
 
   # Create facets if >1 event group
   if (length(field.seasons) > 1) {
-    p <- p + facet_wrap(vars(FieldSeason), ncol = 2, labeller = as_labeller(function(field.seasons){facetTitle(field.seasons, sample.sizes)}))
+    p <- p + ggplot2::facet_wrap(ggplot2::vars(FieldSeason), ncol = 2, labeller = ggplot2::as_labeller(function(field.seasons){FacetTitle(field.seasons, sample.sizes)}))
   }
 
   # Add title and subtitle if not blank
   if (plot.title != "") {
-    p <- p + labs(title = plot.title)
+    p <- p + ggplot2::labs(title = plot.title)
   }
   if (sub.title != "") {
-    p <- p + labs(subtitle = sub.title)
+    p <- p + ggplot2::labs(subtitle = sub.title)
   }
 
   # Rotate x labels 90 degrees if rotate.x.labs is TRUE
   if (rotate.x.labs) {
-    p <- p + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+    p <- p + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
   }
 
   # Set ymin and ymax if provided
   if (ymin != FALSE && ymax != FALSE) {
-    p <- p + expand_limits(y = c(ymin, ymax))
+    p <- p + ggplot2::expand_limits(y = c(ymin, ymax))
   } else if (ymax != FALSE) {
-    p <- p + expand_limits(y = ymax)
+    p <- p + ggplot2::expand_limits(y = ymax)
   } else if (ymin != FALSE) {
-    p <- p + expand_limits(y = ymin)
+    p <- p + ggplot2::expand_limits(y = ymin)
   }
 
   # Set xmin and xmax if provided
   if (xmin != FALSE && xmax != FALSE) {
-    p <- p + expand_limits(x = c(xmin, xmax))
+    p <- p + ggplot2::expand_limits(x = c(xmin, xmax))
   } else if (xmax != FALSE) {
-    p <- p + expand_limits(x = xmax)
+    p <- p + ggplot2::expand_limits(x = xmax)
   } else if (xmin != FALSE) {
-    p <- p + expand_limits(x = xmin)
+    p <- p + ggplot2::expand_limits(x = xmin)
   }
 
   return(p)
