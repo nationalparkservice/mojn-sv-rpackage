@@ -270,6 +270,26 @@ ReadAndFilterData <- function(conn, path.to.data, park, spring, field.season, da
 }
 
 
+#' Get the name of a spring from the spring code
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param spring Spring code to get the name for, e.g. "LAKE_P_BLUE0".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#'
+#' @return The name of the spring
+#' @export
+#'
+GetSpringName <- function(conn, path.to.data, spring.code, data.source = "database") {
+
+  spring <- ReadAndFilterData(conn, path.to.data, spring = spring.code, data.source = data.source, data.name = "Spring")
+  spring %<>% dplyr::select("SpringCode", "SpringName") %>%
+    unique() %>%
+    dplyr::filter(SpringCode == spring.code)
+
+  return(spring$SpringName)
+}
+
 #' Compute sample size by spring and field season
 #'
 #' @param data A data frame with at least the following columns: SpringCode, FieldSeason, TransectNumber.
