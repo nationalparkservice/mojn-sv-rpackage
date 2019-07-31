@@ -234,18 +234,28 @@ ReadAndFilterData <- function(conn, path.to.data, park, spring, field.season, da
   }
 
   if(!missing(park)) {
+    if (!(park %in% (dplyr::select(filtered.data, Park) %>% dplyr::collect())$Park)) {
+      stop("Data are not available for the park specified")
+    }
     filtered.data %<>%
       dplyr::filter(Park == park)
   }
 
   if(!missing(spring)) {
+    if (!(spring %in% (dplyr::select(filtered.data, SpringCode) %>% dplyr::collect())$SpringCode)) {
+      stop("Data are not available for the spring specified")
+    }
     filtered.data %<>%
       dplyr::filter(SpringCode == spring)
   }
 
-  if(!missing(field.season) && ("FieldSeason" %in% names(filtered.data))) {
-    filtered.data %<>%
-      dplyr::filter(FieldSeason == field.season)
+  if(!missing(field.season) & ("FieldSeason" %in% colnames(filtered.data))) {
+    if (any(!(field.season %in% (dplyr::select(filtered.data, FieldSeason) %>% dplyr::collect())$FieldSeason))) {
+      stop("Data are not available for one or more of the field seasons specified")
+    } else {
+      filtered.data %<>%
+        dplyr::filter(FieldSeason %in% field.season)
+    }
   }
 
   filtered.data %<>%
@@ -258,3 +268,144 @@ ReadAndFilterData <- function(conn, path.to.data, park, spring, field.season, da
 
   return(filtered.data)
 }
+
+
+#' Get the name of a spring from the spring code
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param spring Spring code to get the name for, e.g. "LAKE_P_BLUE0".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#'
+#' @return The name of the spring
+#' @export
+#'
+GetSpringName <- function(conn, path.to.data, spring.code, data.source = "database") {
+
+  spring <- ReadAndFilterData(conn, path.to.data, spring = spring.code, data.source = data.source, data.name = "Spring")
+  spring %<>% dplyr::select("SpringCode", "SpringName") %>%
+    unique() %>%
+    dplyr::filter(SpringCode == spring.code)
+
+  return(spring$SpringName)
+}
+
+#' Compute sample size by spring and field season
+#'
+#' @param data A data frame with at least the following columns: SpringCode, FieldSeason, TransectNumber.
+#'
+#' @return A dataframe with columns for spring code, field season, and number of transects (i.e. sample size).
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+GetSampleSizes <- function(data) {
+
+  # Check for valid input
+  required.input.cols <- c("SpringCode", "FieldSeason", "TransectNumber")
+
+  if (!all(required.input.cols %in% names(data))) {
+    stop("The dataframe provided does not have the correct columns")
+  } else if (nrow(data) == 0) {
+    stop("The dataframe provided contains no data")
+  }
+
+  # Get a list of plots monitored by event group
+  n.transects <- data %>%
+    dplyr::select(SpringCode, FieldSeason, TransectNumber) %>%
+    unique() %>%
+    dplyr::group_by(SpringCode, FieldSeason) %>%
+    dplyr::summarise(NTransects = dplyr::n()) %>%
+    dplyr::ungroup()
+
+  return(n.transects)
+}
+
+#' Create a vector of labels for plots faceted by field season
+#'
+#' @param field.seasons A vector of field season names.
+#' @param sample.sizes A dataframe with columns for spring code, field season, and number of transects.
+#'
+#' @return A vector of facet labels with field season and sample size information.
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+FacetTitle <- function(field.seasons, sample.sizes) {
+
+  # Get the number of plots monitored in each season
+  labels <- sample.sizes[which(sample.sizes$FieldSeason %in% field.seasons), ]$NTransects
+
+  # Format labels as "YYYY (n = [# plots monitored])"
+  labels <- paste0(field.seasons, " (n = ", labels, ")")
+  return(labels)
+}
+
+#' Apply some standard formatting to a ggplot object.
+#'
+#' @param p A ggplot object.
+#' @param spring The spring code.
+#' @param spring.name The spring name.
+#' @param field.seasons Either a single field season name, or a vector of field season names.
+#' @param sample.sizes A dataframe with columns SpringCode, FieldSeason, NTransects (i.e. sample size).
+#' @param plot.title The title of the plot.
+#' @param sub.title Optional custom plot subtitle.
+#' @param rotate.x.labs Boolean indicating whether to rotate x axis labels 90 degrees.
+#' @param ymax Optional maximum y limit.
+#' @param ymin Optional minimum y limit.
+#' @param xmax Optional maximum x limit.
+#' @param xmin Optional minimum x limit.
+#'
+#' @return A ggplot object.
+#'
+FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot.title, sub.title = "default", rotate.x.labs = FALSE, ymax = FALSE, ymin = FALSE, xmax = FALSE, xmin = FALSE) {
+
+  # Generate a subtitle from park and event group if subtitle not provided by user
+  if (sub.title == "default") {
+    # For multiple seasons of data, just use the spring name since season and sample size will go in the facet titles
+    if (length(field.seasons) > 1) {
+      sub.title <- spring.name
+    # Otherwise, include spring name, season and sample size
+    } else {
+      n <- sample.sizes[(sample.sizes$SpringCode == spring & sample.sizes$FieldSeason == field.seasons), ]$NTransects
+      sub.title <- paste0(spring.name, " (", field.seasons, ")", "\n", "n = ", n)
+    }
+  }
+
+  # Create facets if >1 event group
+  if (length(field.seasons) > 1) {
+    p <- p + ggplot2::facet_wrap(ggplot2::vars(FieldSeason), ncol = 2, labeller = ggplot2::as_labeller(function(field.seasons){FacetTitle(field.seasons, sample.sizes)}))
+  }
+
+  # Add title and subtitle if not blank
+  if (plot.title != "") {
+    p <- p + ggplot2::labs(title = plot.title)
+  }
+  if (sub.title != "") {
+    p <- p + ggplot2::labs(subtitle = sub.title)
+  }
+
+  # Rotate x labels 90 degrees if rotate.x.labs is TRUE
+  if (rotate.x.labs) {
+    p <- p + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
+  }
+
+  # Set ymin and ymax if provided
+  if (ymin != FALSE && ymax != FALSE) {
+    p <- p + ggplot2::expand_limits(y = c(ymin, ymax))
+  } else if (ymax != FALSE) {
+    p <- p + ggplot2::expand_limits(y = ymax)
+  } else if (ymin != FALSE) {
+    p <- p + ggplot2::expand_limits(y = ymin)
+  }
+
+  # Set xmin and xmax if provided
+  if (xmin != FALSE && xmax != FALSE) {
+    p <- p + ggplot2::expand_limits(x = c(xmin, xmax))
+  } else if (xmax != FALSE) {
+    p <- p + ggplot2::expand_limits(x = xmax)
+  } else if (xmin != FALSE) {
+    p <- p + ggplot2::expand_limits(x = xmin)
+  }
+
+  return(p)
+}
+
