@@ -23,3 +23,14 @@ test_that("CountSpeciesByStratum returns a dataframe of species counts by stratu
 
   expect_mapequal(CountSpeciesByStratum(path.to.data = "./dummy-data/veg-analysis", data.source = "local"), expected)
 })
+
+test_that("CanopyPercentCover correctly computes the canopy cover for each transect", {
+  expected <- tibble::tibble(Park = c("LAKE", "LAKE", "LAKE"),
+                             SpringCode = c("LAKE_P_BLUE0", "LAKE_P_BLUE0", "LAKE_P_BLUE0"),
+                             SpringName = c("Blue Point", "Blue Point", "Blue Point"),
+                             FieldSeason = c("2019", "2019", "2019"),
+                             TransectNumber = as.integer(c(0, 1, 2)),
+                             CanopyCover_percent = c(66.7, 66.7, 66.7))
+
+  expect_mapequal(CanopyPercentCover(path.to.data = "./dummy-data/veg-analysis", data.source = "local"), expected)
+})
