@@ -34,3 +34,40 @@ BoxplotSpeciesByStratum <- function(conn, path.to.data, spring, field.season, da
 
   return(p)
 }
+
+#' Table of species detected through LPI vs veg inventory
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param park Optional. Four-letter park code to filter on, e.g. "MOJA".
+#' @param spring Optional. Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
+#' @param field.season Optional. Field season name to filter on, e.g. "2019".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#' @param dt.options Optional. Options to be passed to DT::datatable().
+#' @param ... Optional. Additional arguments to be passed to DT::datatable().
+#'
+#' @return An HTML widget.
+#' @export
+#'
+#' @details Omits TBD and UNK species from counts. Only includes data from visits labeled 'Primary.'
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+TableSpeciesPerTransect <- function(conn, path.to.data, park, spring, field.season, dt.options, data.source = "database", ...) {
+  data <- CountSpeciesDetected(conn, path.to.data, park, spring, field.season, data.source) %>%
+    dplyr::arrange(Park, FieldSeason, SpringCode, TransectNumber)
+
+  col.names <- gsub("([[:upper:]][[:lower:]])", " \\1", names(data)) %>% trimws()
+  n.rows <- nrow(data)
+  n.cols <- length(col.names)
+
+  if (missing(dt.options)) {
+    dt.options <- list(dom = "t",
+                       pageLength = n.rows,
+                       columnDefs = list(list(className = 'dt-center', targets = 0:n.cols-1)))
+  }
+
+  tbl <- DT::datatable(data, colnames = col.names, rownames = FALSE, options = dt.options, ...)
+
+  return(tbl)
+}
