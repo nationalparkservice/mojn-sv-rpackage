@@ -82,3 +82,49 @@ TableSpeciesPerTransect <- function(conn, path.to.data, park, spring, field.seas
 
   return(tbl)
 }
+
+#' Histogram of LPI canopy cover
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param spring Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
+#' @param field.season Optional. Field season name to filter on, e.g. "2019".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#' @param plot.title Optional custom plot title.
+#' @param breaks Optional numeric vector giving histogram bin boundaries. Defaults to \code{seq(0, 100, by = 10)} to give 10 bins of width 10.
+#' @param sub.title Optional custom plot subtitle.
+#' @param ymax Optional maximum y limit.
+#'
+#' @return A ggplot object.
+#' @export
+#'
+#' @details Only includes data from visits labeled 'Primary.' Counts both plant canopy and other canopy (e.g. litter) as cover. Does not take into account the number of canopy layers, only presence/absence of canopy at a point. I.e., a point with a single plant counts the same as a point with multiple plants in multiple strata. Percent cover is calculated only from points at which data were collected - if only three points were recorded for a transect and one of them had canopy cover, that transect would have 33.3% cover.
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+HistogramCanopyPercentCover <- function(conn, path.to.data, spring, field.season, data.source = "database", plot.title, sub.title, breaks = seq(0, 100, by = 10), ymax) {
+  if (missing(spring)) {
+    stop("Spring code must be specified")
+  }
+
+  data <- CanopyPercentCover(conn = conn, path.to.data = path.to.data, spring = spring, field.season = field.season, data.source = data.source)
+  spring.name <- GetSpringName(conn, path.to.data, spring, data.source)
+
+  if (missing(field.season)) {
+    field.season <- unique(data$FieldSeason)
+  }
+
+  if (missing(plot.title)) {
+    plot.title = "Canopy cover"
+  }
+
+  sample.size <- GetSampleSizes(data)
+
+  p <- ggplot2::ggplot(data, ggplot2::aes(x = CanopyCover_percent, y = 100 * (..count..)/sum(..count..))) +
+    ggplot2::geom_histogram(position = "dodge", breaks = breaks) +
+    ggplot2::xlab("Canopy cover (%)") +
+    ggplot2::ylab("Percentage of transects")
+  p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title, sub.title, ymax = ymax, xmin = 0, xmax = 100)
+
+  return(p)
+}
