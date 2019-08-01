@@ -5,8 +5,7 @@
 \title{Apply some standard formatting to a ggplot object.}
 \usage{
 FormatPlot(p, spring, spring.name, field.seasons, sample.sizes, plot.title,
-  sub.title = "default", rotate.x.labs = FALSE, ymax = FALSE,
-  ymin = FALSE, xmax = FALSE, xmin = FALSE)
+  sub.title, rotate.x.labs, ymax, ymin, xmax, xmin)
 }
 \arguments{
 \item{p}{A ggplot object.}
