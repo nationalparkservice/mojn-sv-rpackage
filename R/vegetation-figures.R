@@ -5,6 +5,12 @@
 #' @param spring Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
 #' @param field.season Optional. Field season name to filter on, e.g. "2019".
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#' @param plot.title Optional custom plot title.
+#' @param sub.title Optional custom plot subtitle.
+#' @param ymax Optional maximum y limit.
+#' @param ymin Optional minimum y limit.
+#' @param xmax Optional maximum x limit.
+#' @param xmin Optional minimum x limit.
 #'
 #' @return A ggplot object.
 #' @export
@@ -13,7 +19,7 @@
 #'
 #' @importFrom magrittr %>% %<>%
 #'
-BoxplotSpeciesByStratum <- function(conn, path.to.data, spring, field.season, data.source = "database") {
+BoxplotSpeciesByStratum <- function(conn, path.to.data, spring, field.season, data.source = "database", plot.title, sub.title, ymax, ymin, xmax, xmin) {
   if (missing(spring)) {
     stop("Spring code must be specified")
   }
@@ -24,13 +30,18 @@ BoxplotSpeciesByStratum <- function(conn, path.to.data, spring, field.season, da
   if (missing(field.season)) {
     field.season <- unique(data$FieldSeason)
   }
+
+  if (missing(plot.title)) {
+    plot.title = "Number of LPI species detected by stratum"
+  }
+
   sample.size <- GetSampleSizes(data)
 
   p <- ggplot2::ggplot(data, ggplot2::aes(x = factor(Stratum, levels = c("T", "M", "B", "ND")), y = SpeciesCount)) +
     ggplot2::geom_boxplot() +
     ggplot2::xlab("Stratum") +
     ggplot2::ylab("Transect-level species count")
-  p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title = "Number of LPI species detected by stratum")
+  p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title = plot.title, sub.title = sub.title, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
 
   return(p)
 }

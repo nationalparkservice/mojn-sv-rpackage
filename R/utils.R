@@ -356,10 +356,10 @@ FacetTitle <- function(field.seasons, sample.sizes) {
 #'
 #' @return A ggplot object.
 #'
-FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot.title, sub.title = "default", rotate.x.labs = FALSE, ymax = FALSE, ymin = FALSE, xmax = FALSE, xmin = FALSE) {
+FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot.title, sub.title, rotate.x.labs, ymax, ymin, xmax, xmin) {
 
   # Generate a subtitle from park and event group if subtitle not provided by user
-  if (sub.title == "default") {
+  if (missing(sub.title)) {
     # For multiple seasons of data, just use the spring name since season and sample size will go in the facet titles
     if (length(field.seasons) > 1) {
       sub.title <- spring.name
@@ -384,25 +384,25 @@ FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot
   }
 
   # Rotate x labels 90 degrees if rotate.x.labs is TRUE
-  if (rotate.x.labs) {
+  if (!missing(rotate.x.labs)) {
     p <- p + ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
   }
 
   # Set ymin and ymax if provided
-  if (ymin != FALSE && ymax != FALSE) {
+  if (!missing(ymin) && !missing(ymax)) {
     p <- p + ggplot2::expand_limits(y = c(ymin, ymax))
-  } else if (ymax != FALSE) {
+  } else if (!missing(ymax)) {
     p <- p + ggplot2::expand_limits(y = ymax)
-  } else if (ymin != FALSE) {
+  } else if (!missing(ymin)) {
     p <- p + ggplot2::expand_limits(y = ymin)
   }
 
   # Set xmin and xmax if provided
-  if (xmin != FALSE && xmax != FALSE) {
+  if (!missing(xmin) && !missing(xmax)) {
     p <- p + ggplot2::expand_limits(x = c(xmin, xmax))
-  } else if (xmax != FALSE) {
+  } else if (!missing(xmax)) {
     p <- p + ggplot2::expand_limits(x = xmax)
-  } else if (xmin != FALSE) {
+  } else if (!missing(xmin)) {
     p <- p + ggplot2::expand_limits(x = xmin)
   }
 
