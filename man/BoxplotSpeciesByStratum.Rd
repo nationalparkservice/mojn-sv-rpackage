@@ -5,7 +5,8 @@
 \title{LPI canopy species count by transect and stratum}
 \usage{
 BoxplotSpeciesByStratum(conn, path.to.data, spring, field.season,
-  data.source = "database")
+  data.source = "database", plot.title, sub.title, ymax, ymin, xmax,
+  xmin)
 }
 \arguments{
 \item{conn}{Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.}
@@ -17,6 +18,18 @@ BoxplotSpeciesByStratum(conn, path.to.data, spring, field.season,
 \item{field.season}{Optional. Field season name to filter on, e.g. "2019".}
 
 \item{data.source}{Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.}
+
+\item{plot.title}{Optional custom plot title.}
+
+\item{sub.title}{Optional custom plot subtitle.}
+
+\item{ymax}{Optional maximum y limit.}
+
+\item{ymin}{Optional minimum y limit.}
+
+\item{xmax}{Optional maximum x limit.}
+
+\item{xmin}{Optional minimum x limit.}
 }
 \value{
 A ggplot object.
