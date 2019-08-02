@@ -320,6 +320,17 @@ GetSampleSizes <- function(data) {
   return(n.transects)
 }
 
+#' List disturbance types monitored as part of the spring veg protocol.
+#'
+#' @return A tibble with columns Code, Label, Summary, and SortOrder
+#'
+#' @details This data is saved as internal data in R/sysdata.rda. If the codes are modified in the database, the data in the package will need to be manually updated.
+GetDisturbanceTypes <- function() {
+
+  return(DISTURBANCE.TYPES)
+
+}
+
 #' Create a vector of labels for plots faceted by field season
 #'
 #' @param field.seasons A vector of field season names.
