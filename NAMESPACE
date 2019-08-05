@@ -2,6 +2,7 @@
 
 export(BoxplotDisturbanceCover)
 export(BoxplotSpeciesByStratum)
+export(BoxplotSpeciesRichnessBySOP)
 export(CanopyPercentCover)
 export(CloseDatabaseConnection)
 export(CountSpeciesByStratum)

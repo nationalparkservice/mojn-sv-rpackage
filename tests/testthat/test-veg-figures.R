@@ -14,3 +14,8 @@ test_that("HistogramCanopyPercentCover produces the expected output", {
   expect_known_value(HistogramCanopyPercentCover(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", field.season = "2019", data.source = "local"), file = "./known-output/HistogramCanopyPercentCover-1.Rdata", update = FALSE)
   expect_known_value(HistogramCanopyPercentCover(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", data.source = "local"), file = "./known-output/HistogramCanopyPercentCover-2.Rdata", update = FALSE)
 })
+
+test_that("BoxplotSpeciesRichnessBySOP produces the expected plot", {
+  expect_known_value(BoxplotSpeciesRichnessBySOP(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", field.season = "2019", data.source = "local"), file = "./known-output/BoxplotSpeciesRichnessBySOP-1.Rdata", update = FALSE)
+  expect_known_value(BoxplotSpeciesRichnessBySOP(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", data.source = "local"), file = "./known-output/BoxplotSpeciesRichnessBySOP-2.Rdata", update = FALSE)
+})
