@@ -372,7 +372,7 @@ FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot
   # Generate a subtitle from park and event group if subtitle not provided by user
   if (missing(sub.title)) {
     # For multiple seasons of data, just use the spring name since season and sample size will go in the facet titles
-    if (length(field.seasons) > 1) {
+    if (missing(field.seasons) || (length(field.seasons) > 1)) {
       sub.title <- spring.name
     # Otherwise, include spring name, season and sample size
     } else {
@@ -382,7 +382,7 @@ FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot
   }
 
   # Create facets if >1 event group
-  if (length(field.seasons) > 1) {
+  if (!missing(field.seasons) && (length(field.seasons) > 1)) {
     p <- p + ggplot2::facet_wrap(ggplot2::vars(FieldSeason), ncol = 2, labeller = ggplot2::as_labeller(function(field.seasons){FacetTitle(field.seasons, sample.sizes)}))
   }
 
