@@ -15,27 +15,52 @@
 #' @importFrom magrittr %>% %<>%
 #'
 CountSpeciesDetected <- function(conn, path.to.data, park, spring, field.season, data.source = "database") {
-  lpi.canopy <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "LPICanopy")
-  sp.inv <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "VegetationInventory")
 
-  lpi.canopy %<>%
-    dplyr::filter(CanopyType == "Plant" & VisitType == "Primary" & !(Canopy %in% c("UNK", "TBD"))) %>%
-    dplyr::select(Park, SpringCode, SpringName, FieldSeason, TransectNumber, Canopy) %>%
-    unique() %>%
-    dplyr::group_by(Park, SpringCode, SpringName, FieldSeason, TransectNumber) %>%
-    dplyr::summarise(LPISpeciesCount = dplyr::n()) %>%
-    dplyr::ungroup()
+  lpi.canopy <- tibble::tibble()
+  sp.inv <- tibble::tibble()
 
-  sp.inv %<>%
-    dplyr::filter(VisitType == "Primary" & !(USDAPlantsCode %in% c("UNK", "TBD"))) %>%
-    dplyr::select(Park, SpringCode, SpringName, FieldSeason, TransectNumber, USDAPlantsCode) %>%
-    unique() %>%
-    dplyr::group_by(Park, SpringCode, SpringName, FieldSeason, TransectNumber) %>%
-    dplyr::summarise(InventorySpeciesCount = dplyr::n()) %>%
-    dplyr::ungroup()
+  tryCatch({
+    lpi.canopy <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "LPICanopy")
+    lpi.canopy %<>%
+      dplyr::filter(CanopyType == "Plant" & VisitType == "Primary" & !(Canopy %in% c("UNK", "TBD"))) %>%
+      dplyr::select(Park, SpringCode, SpringName, FieldSeason, TransectNumber, Canopy) %>%
+      unique() %>%
+      dplyr::group_by(Park, SpringCode, SpringName, FieldSeason, TransectNumber) %>%
+      dplyr::summarise(LPISpeciesCount = dplyr::n()) %>%
+      dplyr::ungroup()
+  },
+  error = function(e) {
+    if (!grepl("^Data are not available", e$message)) {
+      stop(e)
+    }
+  })
 
-  sp.count <- dplyr::full_join(lpi.canopy, sp.inv, by = c("Park", "SpringCode", "SpringName", "FieldSeason", "TransectNumber")) %>%
+  tryCatch({
+    sp.inv <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "VegetationInventory")
+    sp.inv %<>%
+      dplyr::filter(VisitType == "Primary" & !(USDAPlantsCode %in% c("UNK", "TBD"))) %>%
+      dplyr::select(Park, SpringCode, SpringName, FieldSeason, TransectNumber, USDAPlantsCode) %>%
+      unique() %>%
+      dplyr::group_by(Park, SpringCode, SpringName, FieldSeason, TransectNumber) %>%
+      dplyr::summarise(InventorySpeciesCount = dplyr::n()) %>%
+      dplyr::ungroup()
+  },
+  error = function(e) {
+    if (!(nrow(lpi.canopy) > 0 && grepl("^Data are not available", e$message))) {
+      stop(e)
+    }
+  })
+
+  if (nrow(lpi.canopy) > 0 && nrow(sp.inv) > 0) {
+    sp.count <- dplyr::full_join(lpi.canopy, sp.inv, by = c("Park", "SpringCode", "SpringName", "FieldSeason", "TransectNumber")) %>%
     dplyr::arrange(Park, SpringCode, desc(FieldSeason), TransectNumber)
+  } else if (nrow(lpi.canopy) > 0) {
+    sp.count <- lpi.canopy %>%
+      dplyr::mutate(InventorySpeciesCount = NA)
+  } else {
+    sp.count <- sp.inv %>%
+      dplyr::mutate(LPISpeciesCount = NA)
+  }
 
   return(sp.count)
 }
