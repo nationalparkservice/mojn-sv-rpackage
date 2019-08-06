@@ -19,3 +19,8 @@ test_that("BoxplotSpeciesRichnessBySOP produces the expected plot", {
   expect_known_value(BoxplotSpeciesRichnessBySOP(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", field.season = "2019", data.source = "local"), file = "./known-output/BoxplotSpeciesRichnessBySOP-1.Rdata", update = FALSE)
   expect_known_value(BoxplotSpeciesRichnessBySOP(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", data.source = "local"), file = "./known-output/BoxplotSpeciesRichnessBySOP-2.Rdata", update = FALSE)
 })
+
+test_that("BoxplotLPISpeciesRichness produces the expected plot", {
+  expect_known_value(BoxplotLPISpeciesRichness(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_HOR0042", data.source = "local"), file = "./known-output/BoxplotLPISpeciesRichness-1.Rdata", update = FALSE)
+  expect_known_value(BoxplotLPISpeciesRichness(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", data.source = "local"), file = "./known-output/BoxplotLPISpeciesRichness-2.Rdata", update = FALSE)
+})
