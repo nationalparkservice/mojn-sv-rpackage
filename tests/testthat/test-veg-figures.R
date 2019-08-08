@@ -23,4 +23,5 @@ test_that("BoxplotSpeciesRichnessBySOP produces the expected plot", {
 test_that("BoxplotLPISpeciesRichness produces the expected plot", {
   expect_known_value(BoxplotLPISpeciesRichness(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_HOR0042", data.source = "local"), file = "./known-output/BoxplotLPISpeciesRichness-1.Rdata", update = FALSE)
   expect_known_value(BoxplotLPISpeciesRichness(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", data.source = "local"), file = "./known-output/BoxplotLPISpeciesRichness-2.Rdata", update = FALSE)
+  expect_error(BoxplotLPISpeciesRichness(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_ROGE0", data.source = "local"), regexp = "Data are not available for the spring specified")
 })

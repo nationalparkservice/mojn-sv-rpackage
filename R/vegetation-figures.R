@@ -214,8 +214,7 @@ BoxplotLPISpeciesRichness <- function(conn, path.to.data, spring, data.source = 
     stop("Spring code must be specified")
   }
 
-  data <- CountSpeciesDetected(conn = conn, path.to.data = path.to.data, spring = spring, data.source = data.source) %>%
-    dplyr::select(-InventorySpeciesCount)
+  data <- CountLPISpeciesDetected(conn = conn, path.to.data = path.to.data, spring = spring, data.source = data.source)
 
   spring.name <- GetSpringName(conn, path.to.data, spring, data.source)
 
