@@ -42,7 +42,7 @@ BoxplotSpeciesByStratum <- function(conn, path.to.data, spring, field.season, da
   }
 
   if (missing(plot.title)) {
-    plot.title = "Number of LPI species detected by stratum"
+    plot.title = "Number of species per stratum"
   }
 
   sample.size <- GetSampleSizes(data)
@@ -202,7 +202,7 @@ BoxplotSpeciesRichnessBySOP <- function(conn, path.to.data, spring, field.season
   }
 
   if (missing(y.lab)) {
-    y.lab <- "Transect-level species richness"
+    y.lab <- "Number of species per transect"
   }
   sample.size <- GetSampleSizes(data)
 
@@ -254,7 +254,7 @@ BoxplotLPISpeciesRichness <- function(conn, path.to.data, spring, data.source = 
   }
 
   if (missing(y.lab)) {
-    y.lab <- "Num species per transect"
+    y.lab <- "Number of species per transect"
   }
   sample.size <- GetSampleSizes(data)
 
@@ -306,7 +306,7 @@ BoxplotInvSpeciesRichness <- function(conn, path.to.data, spring, data.source = 
   }
 
   if (missing(y.lab)) {
-    y.lab <- "Num Species per Transect"
+    y.lab <- "Number of species per transect"
   }
 
   sample.size <- GetSampleSizes(data)
