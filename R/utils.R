@@ -435,3 +435,67 @@ FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot
   return(p)
 }
 
+#' See data availability by park, spring, field season, and SOP.
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param park Optional. Four-letter park code to filter on, e.g. "MOJA".
+#' @param spring Optional. Spring code to filter on, e.g. "LAKE_P_BLUE0".
+#' @param field.season Optional. Field season name to filter on, e.g. "2019".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#' @param data.name The name of the analysis view or the csv file containing the data. E.g. "LPICanopy", "TreeCountTransect"
+#'
+#' @return A tibble.
+#' @export
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+GetDataAvailability <- function(conn, path.to.data, park, spring, field.season, data.source = "database") {
+
+  lpi <- tibble::tibble()
+  inventory <- tibble::tibble()
+  tree.count <- tibble::tibble()
+
+  tryCatch({
+    lpi <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, data.name = "LPITransect") %>%
+      dplyr::select(Park, SpringCode, SpringName, FieldSeason) %>%
+      unique() %>%
+      dplyr::mutate(SOP = "LPI", DataPresent = "Y")
+  },
+  error = function(e) {
+    if (!grepl("^Data are not available", e$message)) {
+      stop(e)
+    }
+  })
+
+  tryCatch({
+    inventory <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, data.name = "VegetationInventoryTransect") %>%
+      dplyr::select(Park, SpringCode, SpringName, FieldSeason) %>%
+      unique() %>%
+      dplyr::mutate(SOP = "Inventory", DataPresent = "Y")
+  },
+  error = function(e) {
+    if (!grepl("^Data are not available", e$message)) {
+      stop(e)
+    }
+  })
+
+  tryCatch({
+    tree.count <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, data.name = "TreeCountTransect") %>%
+      dplyr::select(Park, SpringCode, SpringName, FieldSeason) %>%
+      unique() %>%
+      dplyr::mutate(SOP = "TreeCount", DataPresent = "Y")
+  },
+  error = function(e) {
+    if ((nrow(lpi) == 0 && nrow(inventory) == 0) || !grepl("^Data are not available", e$message)) {
+      stop(e)
+    }
+  })
+
+  data.avail <- rbind(lpi, inventory, tree.count) %>%
+    dplyr::mutate(SOP = factor(SOP, levels = c("LPI", "Inventory", "TreeCount"))) %>%
+    tidyr::spread(key = SOP, value = DataPresent, fill = "N", drop = FALSE) %>%
+    dplyr::filter(!(LPI == "N" & Inventory == "N" & TreeCount == "N"))
+
+  return(data.avail)
+}
