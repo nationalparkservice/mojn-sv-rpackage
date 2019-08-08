@@ -5,8 +5,8 @@
 \title{Boxplot of LPI species richness over time}
 \usage{
 BoxplotLPISpeciesRichness(conn, path.to.data, spring,
-  data.source = "database", plot.title, sub.title, ymax, ymin, xmax,
-  xmin)
+  data.source = "database", plot.title, sub.title, x.lab, y.lab, ymax,
+  ymin, xmax, xmin)
 }
 \arguments{
 \item{conn}{Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.}
@@ -17,9 +17,13 @@ BoxplotLPISpeciesRichness(conn, path.to.data, spring,
 
 \item{data.source}{Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.}
 
-\item{plot.title}{Optional custom plot title.}
+\item{plot.title}{Optional custom plot title. Leave blank to use a sensible default. Use "" to omit the title.}
 
-\item{sub.title}{Optional custom plot subtitle.}
+\item{sub.title}{Optional custom plot subtitle.  Leave blank to use a sensible default. Use "" to omit the subtitle.}
+
+\item{x.lab}{Optional X axis label. Leave blank to use a sensible default. Use "" to omit the axis label.}
+
+\item{y.lab}{Y axis label. Leave blank to use a sensible default. Use "" to omit the axis label.}
 
 \item{ymax}{Optional maximum y limit.}
 

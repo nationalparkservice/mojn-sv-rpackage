@@ -5,7 +5,7 @@
 \title{Apply some standard formatting to a ggplot object.}
 \usage{
 FormatPlot(p, spring, spring.name, field.seasons, sample.sizes, plot.title,
-  sub.title, rotate.x.labs, ymax, ymin, xmax, xmin)
+  sub.title, x.lab, y.lab, rotate.x.labs, ymax, ymin, xmax, xmin)
 }
 \arguments{
 \item{p}{A ggplot object.}
@@ -21,6 +21,10 @@ FormatPlot(p, spring, spring.name, field.seasons, sample.sizes, plot.title,
 \item{plot.title}{The title of the plot.}
 
 \item{sub.title}{Optional custom plot subtitle.}
+
+\item{x.lab}{X axis label.}
+
+\item{y.lab}{Y axis label.}
 
 \item{rotate.x.labs}{Boolean indicating whether to rotate x axis labels 90 degrees.}
 

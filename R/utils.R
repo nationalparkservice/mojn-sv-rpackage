@@ -359,6 +359,8 @@ FacetTitle <- function(field.seasons, sample.sizes) {
 #' @param sample.sizes A dataframe with columns SpringCode, FieldSeason, NTransects (i.e. sample size).
 #' @param plot.title The title of the plot.
 #' @param sub.title Optional custom plot subtitle.
+#' @param x.lab X axis label.
+#' @param y.lab Y axis label.
 #' @param rotate.x.labs Boolean indicating whether to rotate x axis labels 90 degrees.
 #' @param ymax Optional maximum y limit.
 #' @param ymin Optional minimum y limit.
@@ -367,7 +369,7 @@ FacetTitle <- function(field.seasons, sample.sizes) {
 #'
 #' @return A ggplot object.
 #'
-FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot.title, sub.title, rotate.x.labs, ymax, ymin, xmax, xmin) {
+FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot.title, sub.title, x.lab, y.lab, rotate.x.labs, ymax, ymin, xmax, xmin) {
 
   # Generate a subtitle from park and event group if subtitle not provided by user
   if (missing(sub.title)) {
@@ -392,6 +394,19 @@ FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot
   }
   if (sub.title != "") {
     p <- p + ggplot2::labs(subtitle = sub.title)
+  }
+
+  # Add x and y axis titles if not blank
+  if (x.lab != "") {
+    p <- p + ggplot2::xlab(x.lab)
+  } else {
+    p <- p + ggplot2::theme(axis.title.x = ggplot2::element_blank())
+  }
+
+  if (y.lab != "") {
+    p <- p + ggplot2::ylab(y.lab)
+  } else {
+    p <- p + ggplot2::theme(axis.title.y = ggplot2::element_blank())
   }
 
   # Rotate x labels 90 degrees if rotate.x.labs is TRUE

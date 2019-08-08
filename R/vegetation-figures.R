@@ -5,8 +5,10 @@
 #' @param spring Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
 #' @param field.season Optional. Field season name to filter on, e.g. "2019".
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
-#' @param plot.title Optional custom plot title.
-#' @param sub.title Optional custom plot subtitle.
+#' @param plot.title Optional custom plot title. Leave blank to use a sensible default. Use "" to omit the title.
+#' @param sub.title Optional custom plot subtitle.  Leave blank to use a sensible default. Use "" to omit the subtitle.
+#' @param x.lab Optional X axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
+#' @param y.lab Y axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
 #' @param ymax Optional maximum y limit.
 #' @param ymin Optional minimum y limit.
 #' @param xmax Optional maximum x limit.
@@ -19,7 +21,7 @@
 #'
 #' @importFrom magrittr %>% %<>%
 #'
-BoxplotSpeciesByStratum <- function(conn, path.to.data, spring, field.season, data.source = "database", plot.title, sub.title, ymax, ymin, xmax, xmin) {
+BoxplotSpeciesByStratum <- function(conn, path.to.data, spring, field.season, data.source = "database", plot.title, sub.title, x.lab, y.lab, ymax, ymin, xmax, xmin) {
   if (missing(spring)) {
     stop("Spring code must be specified")
   }
@@ -31,6 +33,14 @@ BoxplotSpeciesByStratum <- function(conn, path.to.data, spring, field.season, da
     field.season <- unique(data$FieldSeason)
   }
 
+  if (missing(x.lab)) {
+    x.lab <- "Stratum"
+  }
+
+  if (missing(y.lab)) {
+    y.lab <- "Transect-level species count"
+  }
+
   if (missing(plot.title)) {
     plot.title = "Number of LPI species detected by stratum"
   }
@@ -38,10 +48,9 @@ BoxplotSpeciesByStratum <- function(conn, path.to.data, spring, field.season, da
   sample.size <- GetSampleSizes(data)
 
   p <- ggplot2::ggplot(data, ggplot2::aes(x = factor(Stratum, levels = c("T", "M", "B", "ND")), y = SpeciesCount)) +
-    ggplot2::geom_boxplot() +
-    ggplot2::xlab("Stratum") +
-    ggplot2::ylab("Transect-level species count")
-  p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title = plot.title, sub.title = sub.title, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
+    ggplot2::geom_boxplot()
+
+  p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title = plot.title, sub.title = sub.title, x.lab = x.lab, y.lab = y.lab, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
 
   return(p)
 }
@@ -90,9 +99,11 @@ TableSpeciesPerTransect <- function(conn, path.to.data, park, spring, field.seas
 #' @param spring Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
 #' @param field.season Optional. Field season name to filter on, e.g. "2019".
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
-#' @param plot.title Optional custom plot title.
+#' @param plot.title Optional custom plot title. Leave blank to use a sensible default. Use "" to omit the title.
+#' @param sub.title Optional custom plot subtitle.  Leave blank to use a sensible default. Use "" to omit the subtitle.
+#' @param x.lab Optional X axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
+#' @param y.lab Y axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
 #' @param breaks Optional numeric vector giving histogram bin boundaries. Defaults to \code{seq(0, 100, by = 10)} to give 10 bins of width 10.
-#' @param sub.title Optional custom plot subtitle.
 #' @param ymax Optional maximum y limit.
 #'
 #' @return A ggplot object.
@@ -102,7 +113,7 @@ TableSpeciesPerTransect <- function(conn, path.to.data, park, spring, field.seas
 #'
 #' @importFrom magrittr %>% %<>%
 #'
-HistogramCanopyPercentCover <- function(conn, path.to.data, spring, field.season, data.source = "database", plot.title, sub.title, breaks = seq(0, 100, by = 10), ymax) {
+HistogramCanopyPercentCover <- function(conn, path.to.data, spring, field.season, data.source = "database", plot.title, sub.title, x.lab, y.lab, breaks = seq(0, 100, by = 10), ymax) {
   if (missing(spring)) {
     stop("Spring code must be specified")
   }
@@ -118,13 +129,19 @@ HistogramCanopyPercentCover <- function(conn, path.to.data, spring, field.season
     plot.title = "Canopy cover"
   }
 
+  if (missing(x.lab)) {
+    x.lab <- "Canopy cover (%)"
+  }
+
+  if (missing(y.lab)) {
+    y.lab <- "Percentage of transects"
+  }
   sample.size <- GetSampleSizes(data)
 
   p <- ggplot2::ggplot(data, ggplot2::aes(x = CanopyCover_percent, y = 100 * (..count..)/sum(..count..))) +
-    ggplot2::geom_histogram(position = "dodge", breaks = breaks) +
-    ggplot2::xlab("Canopy cover (%)") +
-    ggplot2::ylab("Percentage of transects")
-  p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title, sub.title, ymax = ymax, xmin = 0, xmax = 100)
+    ggplot2::geom_histogram(position = "dodge", breaks = breaks)
+
+  p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title, sub.title, x.lab = x.lab, y.lab = y.lab, ymax = ymax, xmin = 0, xmax = 100)
 
   return(p)
 }
@@ -136,8 +153,10 @@ HistogramCanopyPercentCover <- function(conn, path.to.data, spring, field.season
 #' @param spring Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
 #' @param field.season Optional. Field season name to filter on, e.g. "2019".
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
-#' @param plot.title Optional custom plot title.
-#' @param sub.title Optional custom plot subtitle.
+#' @param plot.title Optional custom plot title. Leave blank to use a sensible default. Use "" to omit the title.
+#' @param sub.title Optional custom plot subtitle.  Leave blank to use a sensible default. Use "" to omit the subtitle.
+#' @param x.lab Optional X axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
+#' @param y.lab Y axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
 #' @param ymax Optional maximum y limit.
 #' @param ymin Optional minimum y limit.
 #' @param xmax Optional maximum x limit.
@@ -150,7 +169,7 @@ HistogramCanopyPercentCover <- function(conn, path.to.data, spring, field.season
 #'
 #' @importFrom magrittr %>% %<>%
 #'
-BoxplotSpeciesRichnessBySOP <- function(conn, path.to.data, spring, field.season, data.source = "database", plot.title, sub.title, ymax, ymin, xmax, xmin) {
+BoxplotSpeciesRichnessBySOP <- function(conn, path.to.data, spring, field.season, data.source = "database", plot.title, sub.title, x.lab, y.lab, ymax, ymin, xmax, xmin) {
   if (missing(spring)) {
     stop("Spring code must be specified")
   }
@@ -178,13 +197,19 @@ BoxplotSpeciesRichnessBySOP <- function(conn, path.to.data, spring, field.season
     plot.title = "Species richness"
   }
 
+  if (missing(x.lab)) {
+    x.lab <- "SOP"
+  }
+
+  if (missing(y.lab)) {
+    y.lab <- "Transect-level species richness"
+  }
   sample.size <- GetSampleSizes(data)
 
   p <- ggplot2::ggplot(data, ggplot2::aes(x = factor(SOP, levels = c("LPISpeciesCount", "InventorySpeciesCount"), labels = c("LPI", "Inventory")), y = SpeciesRichness)) +
-    ggplot2::geom_boxplot() +
-    ggplot2::xlab("SOP") +
-    ggplot2::ylab("Transect-level species richness")
-  p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title = plot.title, sub.title = sub.title, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
+    ggplot2::geom_boxplot()
+
+  p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title = plot.title, sub.title = sub.title, x.lab = x.lab, y.lab = y.lab, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
 
   return(p)
 }
@@ -195,8 +220,10 @@ BoxplotSpeciesRichnessBySOP <- function(conn, path.to.data, spring, field.season
 #' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
 #' @param spring Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
-#' @param plot.title Optional custom plot title.
-#' @param sub.title Optional custom plot subtitle.
+#' @param plot.title Optional custom plot title. Leave blank to use a sensible default. Use "" to omit the title.
+#' @param sub.title Optional custom plot subtitle.  Leave blank to use a sensible default. Use "" to omit the subtitle.
+#' @param x.lab Optional X axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
+#' @param y.lab Y axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
 #' @param ymax Optional maximum y limit.
 #' @param ymin Optional minimum y limit.
 #' @param xmax Optional maximum x limit.
@@ -209,7 +236,7 @@ BoxplotSpeciesRichnessBySOP <- function(conn, path.to.data, spring, field.season
 #'
 #' @importFrom magrittr %>% %<>%
 #'
-BoxplotLPISpeciesRichness <- function(conn, path.to.data, spring, data.source = "database", plot.title, sub.title, ymax, ymin, xmax, xmin) {
+BoxplotLPISpeciesRichness <- function(conn, path.to.data, spring, data.source = "database", plot.title, sub.title, x.lab, y.lab, ymax, ymin, xmax, xmin) {
   if (missing(spring)) {
     stop("Spring code must be specified")
   }
@@ -222,13 +249,19 @@ BoxplotLPISpeciesRichness <- function(conn, path.to.data, spring, data.source = 
     plot.title = "LPI species richness"
   }
 
+  if (missing(x.lab)) {
+    x.lab <- "Field season"
+  }
+
+  if (missing(y.lab)) {
+    y.lab <- "Transect-level species richness"
+  }
   sample.size <- GetSampleSizes(data)
 
   p <- ggplot2::ggplot(data, ggplot2::aes(x = FieldSeason, y = LPISpeciesCount)) +
-    ggplot2::geom_boxplot() +
-    ggplot2::xlab("Field season") +
-    ggplot2::ylab("Transect-level species richness")
-  p <- FormatPlot(p, spring, spring.name, sample.sizes = sample.size, plot.title = plot.title, sub.title = sub.title, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
+    ggplot2::geom_boxplot()
+
+  p <- FormatPlot(p, spring, spring.name, sample.sizes = sample.size, plot.title = plot.title, sub.title = sub.title, x.lab = x.lab, y.lab = y.lab, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
 
   return(p)
 }
@@ -239,8 +272,10 @@ BoxplotLPISpeciesRichness <- function(conn, path.to.data, spring, data.source = 
 #' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
 #' @param spring Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
-#' @param plot.title Optional custom plot title.
-#' @param sub.title Optional custom plot subtitle.
+#' @param plot.title Optional custom plot title. Leave blank to use a sensible default. Use "" to omit the title.
+#' @param sub.title Optional custom plot subtitle.  Leave blank to use a sensible default. Use "" to omit the subtitle.
+#' @param x.lab Optional X axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
+#' @param y.lab Y axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
 #' @param ymax Optional maximum y limit.
 #' @param ymin Optional minimum y limit.
 #' @param xmax Optional maximum x limit.
@@ -253,7 +288,7 @@ BoxplotLPISpeciesRichness <- function(conn, path.to.data, spring, data.source = 
 #'
 #' @importFrom magrittr %>% %<>%
 #'
-BoxplotInvSpeciesRichness <- function(conn, path.to.data, spring, data.source = "database", plot.title, sub.title, ymax, ymin, xmax, xmin) {
+BoxplotInvSpeciesRichness <- function(conn, path.to.data, spring, data.source = "database", plot.title, sub.title, x.lab, y.lab, ymax, ymin, xmax, xmin) {
   if (missing(spring)) {
     stop("Spring code must be specified")
   }
@@ -266,13 +301,20 @@ BoxplotInvSpeciesRichness <- function(conn, path.to.data, spring, data.source = 
     plot.title = "Inventory species richness"
   }
 
+  if (missing(x.lab)) {
+    x.lab <- "Field season"
+  }
+
+  if (missing(y.lab)) {
+    y.lab <- "Transect-level species richness"
+  }
+
   sample.size <- GetSampleSizes(data)
 
   p <- ggplot2::ggplot(data, ggplot2::aes(x = FieldSeason, y = InventorySpeciesCount)) +
-    ggplot2::geom_boxplot() +
-    ggplot2::xlab("Field season") +
-    ggplot2::ylab("Transect-level species richness")
-  p <- FormatPlot(p, spring, spring.name, sample.sizes = sample.size, plot.title = plot.title, sub.title = sub.title, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
+    ggplot2::geom_boxplot()
+
+  p <- FormatPlot(p, spring, spring.name, sample.sizes = sample.size, plot.title = plot.title, sub.title = sub.title, x.lab = x.lab, y.lab = y.lab, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
 
   return(p)
 }
