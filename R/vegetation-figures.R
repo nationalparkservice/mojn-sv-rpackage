@@ -232,3 +232,47 @@ BoxplotLPISpeciesRichness <- function(conn, path.to.data, spring, data.source = 
 
   return(p)
 }
+
+#' Boxplot of inventory species richness over time
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param spring Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#' @param plot.title Optional custom plot title.
+#' @param sub.title Optional custom plot subtitle.
+#' @param ymax Optional maximum y limit.
+#' @param ymin Optional minimum y limit.
+#' @param xmax Optional maximum x limit.
+#' @param xmin Optional minimum x limit.
+#'
+#' @return A ggplot object.
+#' @export
+#'
+#' @details Omits TBD and UNK species from counts. Only includes data from visits labeled 'Primary.'
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+BoxplotInvSpeciesRichness <- function(conn, path.to.data, spring, data.source = "database", plot.title, sub.title, ymax, ymin, xmax, xmin) {
+  if (missing(spring)) {
+    stop("Spring code must be specified")
+  }
+
+  data <- CountInvSpeciesDetected(conn = conn, path.to.data = path.to.data, spring = spring, data.source = data.source)
+
+  spring.name <- GetSpringName(conn, path.to.data, spring, data.source)
+
+  if (missing(plot.title)) {
+    plot.title = "Inventory species richness"
+  }
+
+  sample.size <- GetSampleSizes(data)
+
+  p <- ggplot2::ggplot(data, ggplot2::aes(x = FieldSeason, y = InventorySpeciesCount)) +
+    ggplot2::geom_boxplot() +
+    ggplot2::xlab("Field season") +
+    ggplot2::ylab("Transect-level species richness")
+  p <- FormatPlot(p, spring, spring.name, sample.sizes = sample.size, plot.title = plot.title, sub.title = sub.title, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
+
+  return(p)
+}
