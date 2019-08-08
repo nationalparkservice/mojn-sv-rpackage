@@ -32,7 +32,7 @@ CountSpeciesDetected <- function(conn, path.to.data, park, spring, field.season,
     sp.inv <- CountInvSpeciesDetected(conn, path.to.data, park, spring, field.season, data.source)
   },
   error = function(e) {
-    if (!(nrow(lpi.canopy) > 0 && grepl("^Data are not available", e$message))) {
+    if ((nrow(lpi.canopy) == 0) || !grepl("^Data are not available", e$message)) {
       stop(e)
     }
   })
