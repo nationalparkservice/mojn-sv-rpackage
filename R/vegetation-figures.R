@@ -254,7 +254,7 @@ BoxplotLPISpeciesRichness <- function(conn, path.to.data, spring, data.source = 
   }
 
   if (missing(y.lab)) {
-    y.lab <- "Transect-level species richness"
+    y.lab <- "Num species per transect"
   }
   sample.size <- GetSampleSizes(data)
 
@@ -306,7 +306,7 @@ BoxplotInvSpeciesRichness <- function(conn, path.to.data, spring, data.source = 
   }
 
   if (missing(y.lab)) {
-    y.lab <- "Transect-level species richness"
+    y.lab <- "Num Species per Transect"
   }
 
   sample.size <- GetSampleSizes(data)
