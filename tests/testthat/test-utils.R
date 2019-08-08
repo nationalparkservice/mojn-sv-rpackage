@@ -45,3 +45,17 @@ test_that("ReadAndFilterData correctly filters data", {
   expect_error(ReadAndFilterData(path.to.data = "./dummy-data/read-and-filter", field.season = c("2019", "2018"), data.source = "local", data.name = "LPICanopy"), "Data are not available for one or more of the field seasons specified")
 })
 
+test_that("GetDataAvailability correctly reports which SOP data are available", {
+  expected <- tibble::tibble(Park = "LAKE",
+                             SpringCode = rep(c("LAKE_P_BLUE0", "LAKE_P_HOR0042", "LAKE_P_ROGE0"), 2),
+                             SpringName = rep(c("Blue Point", "Horsethief Canyon", "Rogers"), 2),
+                             FieldSeason = c(rep("2019", 3), rep("2020", 3)),
+                             LPI = "Y",
+                             Inventory = c(rep("Y", 3), rep("N", 3)),
+                             TreeCount = c("N", rep("Y", 5)))
+  expected.2020 <- dplyr::filter(expected, FieldSeason == "2020")
+
+  expect_mapequal(GetDataAvailability(path.to.data = "./dummy-data/data-availability", data.source = "local"), expected)
+  expect_mapequal(GetDataAvailability(path.to.data = "./dummy-data/data-availability", field.season = "2020", data.source = "local"), expected.2020)
+  expect_error(GetDataAvailability(path.to.data = "./dummy-data/data-availability", spring = "MOJA_P_MCSP0", data.source = "local"), regexp = "Data are not available")
+})
