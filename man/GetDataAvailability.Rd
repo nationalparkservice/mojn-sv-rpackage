@@ -28,3 +28,6 @@ A tibble.
 \description{
 See data availability by park, spring, field season, and SOP.
 }
+\details{
+Only includes data from visits labeled 'Primary.'
+}

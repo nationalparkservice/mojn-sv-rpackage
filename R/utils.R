@@ -455,6 +455,8 @@ FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot
 #' @return A tibble.
 #' @export
 #'
+#' @details Only includes data from visits labeled 'Primary.'
+#'
 #' @importFrom magrittr %>% %<>%
 #'
 GetDataAvailability <- function(conn, path.to.data, park, spring, field.season, data.source = "database") {
@@ -465,6 +467,7 @@ GetDataAvailability <- function(conn, path.to.data, park, spring, field.season, 
 
   tryCatch({
     lpi <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, data.name = "LPITransect") %>%
+      dplyr::filter(VisitType == "Primary") %>%
       dplyr::select(Park, SpringCode, SpringName, FieldSeason) %>%
       unique() %>%
       dplyr::mutate(SOP = "LPI", DataPresent = "Y")
@@ -477,6 +480,7 @@ GetDataAvailability <- function(conn, path.to.data, park, spring, field.season, 
 
   tryCatch({
     inventory <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, data.name = "VegetationInventoryTransect") %>%
+      dplyr::filter(VisitType == "Primary") %>%
       dplyr::select(Park, SpringCode, SpringName, FieldSeason) %>%
       unique() %>%
       dplyr::mutate(SOP = "Inventory", DataPresent = "Y")
@@ -489,6 +493,7 @@ GetDataAvailability <- function(conn, path.to.data, park, spring, field.season, 
 
   tryCatch({
     tree.count <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, data.name = "TreeCountTransect") %>%
+      dplyr::filter(VisitType == "Primary") %>%
       dplyr::select(Park, SpringCode, SpringName, FieldSeason) %>%
       unique() %>%
       dplyr::mutate(SOP = "TreeCount", DataPresent = "Y")
