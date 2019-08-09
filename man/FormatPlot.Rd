@@ -16,7 +16,7 @@ FormatPlot(p, spring, spring.name, field.seasons, sample.sizes, plot.title,
 
 \item{field.seasons}{Either a single field season name, or a vector of field season names.}
 
-\item{sample.sizes}{A dataframe with columns SpringCode, FieldSeason, NTransects (i.e. sample size).}
+\item{sample.sizes}{Optional dataframe with columns SpringCode, FieldSeason, NTransects (i.e. sample size).}
 
 \item{plot.title}{The title of the plot.}
 

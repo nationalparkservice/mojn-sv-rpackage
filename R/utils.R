@@ -342,11 +342,16 @@ GetDisturbanceTypes <- function() {
 #'
 FacetTitle <- function(field.seasons, sample.sizes) {
 
-  # Get the number of plots monitored in each season
-  labels <- sample.sizes[which(sample.sizes$FieldSeason %in% field.seasons), ]$NTransects
+  if (missing(sample.sizes)) {
+    labels <- field.seasons
+  } else {
+    # Get the number of plots monitored in each season
+    labels <- sample.sizes[which(sample.sizes$FieldSeason %in% field.seasons), ]$NTransects
 
-  # Format labels as "YYYY (n = [# plots monitored])"
-  labels <- paste0(field.seasons, " (n = ", labels, ")")
+    # Format labels as "YYYY (n = [# plots monitored])"
+    labels <- paste0(field.seasons, " (n = ", labels, ")")
+  }
+
   return(labels)
 }
 
@@ -356,7 +361,7 @@ FacetTitle <- function(field.seasons, sample.sizes) {
 #' @param spring The spring code.
 #' @param spring.name The spring name.
 #' @param field.seasons Either a single field season name, or a vector of field season names.
-#' @param sample.sizes A dataframe with columns SpringCode, FieldSeason, NTransects (i.e. sample size).
+#' @param sample.sizes Optional dataframe with columns SpringCode, FieldSeason, NTransects (i.e. sample size).
 #' @param plot.title The title of the plot.
 #' @param sub.title Optional custom plot subtitle.
 #' @param x.lab X axis label.
@@ -377,9 +382,11 @@ FormatPlot <- function(p, spring, spring.name, field.seasons, sample.sizes, plot
     if (missing(field.seasons) || (length(field.seasons) > 1)) {
       sub.title <- spring.name
     # Otherwise, include spring name, season and sample size
-    } else {
+    } else if (!missing(sample.sizes)) {
       n <- sample.sizes[(sample.sizes$SpringCode == spring & sample.sizes$FieldSeason == field.seasons), ]$NTransects
       sub.title <- paste0(spring.name, " (", field.seasons, ")", "\n", "n = ", n)
+    } else {
+      sub.title <- paste0(spring.name, " (", field.seasons, ")")
     }
   }
 
