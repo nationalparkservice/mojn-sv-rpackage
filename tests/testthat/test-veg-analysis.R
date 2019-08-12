@@ -47,3 +47,14 @@ test_that("CalculateSpeciesAccumulation correctly creates a table of speccaccum 
   actual %<>% dplyr::mutate(Transects = round(Transects, 2), StDev = round(StDev, 2), Richness = round(Richness, 2))
   expect_mapequal(actual, expected)
 })
+
+test_that("TreePresenceAbsence correctly reports the number of transects with and without trees", {
+  expected <- tibble::tibble(Park = "LAKE",
+                             SpringCode = c("LAKE_P_HOR0042", "LAKE_P_ROGE0"),
+                             SpringName = c("Horsethief Canyon", "Rogers"),
+                             FieldSeason = "2019",
+                             NTransectsWithTrees = as.integer(c(1, 3)),
+                             NTransectsNoTrees = as.integer(c(2, 0)))
+  expect_mapequal(TreePresenceAbsence(path.to.data = "./dummy-data/veg-analysis", data.source = "local"), expected)
+  expect_mapequal(TreePresenceAbsence(path.to.data = "./dummy-data/veg-analysis", data.source = "local", spring = "LAKE_P_ROGE0"), expected[2,])
+})
