@@ -34,3 +34,16 @@ test_that("CanopyPercentCover correctly computes the canopy cover for each trans
 
   expect_mapequal(CanopyPercentCover(path.to.data = "./dummy-data/veg-analysis", data.source = "local"), expected)
 })
+
+test_that("CalculateSpeciesAccumulation correctly creates a table of speccaccum output for use in figure", {
+  expected <- tibble::tibble(Park = c("LAKE", "LAKE", "LAKE"),
+                             SpringCode = c("LAKE_P_BLUE0", "LAKE_P_BLUE0", "LAKE_P_BLUE0"),
+                             SpringName = c("Blue Point", "Blue Point", "Blue Point"),
+                             FieldSeason = c("2019", "2019", "2019"),
+                             Transects = c(1.09, 1.91, 3),
+                             StDev = c(0.58, 0.74, 0),
+                             Richness = c(3.48, 5.30, 7))
+  actual <- CalculateSpeciesAccumulation(path.to.data = "./dummy-data/veg-analysis", data.source = "local", spring = "LAKE_P_BLUE0", field.season = "2019")
+  actual %<>% dplyr::mutate(Transects = round(Transects, 2), StDev = round(StDev, 2), Richness = round(Richness, 2))
+  expect_mapequal(actual, expected)
+})

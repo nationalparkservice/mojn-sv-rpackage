@@ -178,3 +178,45 @@ CanopyPercentCover <- function(conn, path.to.data, park, spring, field.season, d
 
   return(pct.cover)
 }
+
+#' Species Accumulation Curve by spring
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param spring Spring code to filter on, e.g. "LAKE_P_BLUE0".
+#' @param field.season Optional. Field season name to filter on, e.g. "2019".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#'
+#' @return A tibble with columns Park, SpringCode, SpringName, FieldSeason, Sites, Richness, StDev
+#' @export
+#'
+#' @details Only includes data from visits labeled 'Primary.' Does not include UNKS but does include To Be Determined unknown species.
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+CalculateSpeciesAccumulation<- function(conn, path.to.data, spring, field.season, data.source = "database") {
+  veg.inv <- ReadAndFilterData(conn, path.to.data, spring = spring, field.season = field.season, data.source = data.source, data.name = "VegetationInventory", )
+  
+  sp.acc <- veg.inv %>%
+    dplyr::filter(VisitType == "Primary" & USDAPlantsCode != "UNK") %>%
+    dplyr::select(TransectNumber, USDAPlantsCode, UnknownPlantCode)
+  # Replace TBD plant codes with the unknown code (i.e. A, B, C, etc.)
+  sp.acc[which(sp.acc$USDAPlantsCode == "TBD"), ]$USDAPlantsCode <- sp.acc[which(sp.acc$USDAPlantsCode == "TBD"), ]$UnknownPlantCode
+  
+  sp.acc %<>% dplyr::select(-UnknownPlantCode) %>%
+    dplyr::mutate(Present = 1) %>%
+    tidyr::spread(USDAPlantsCode, Present, fill = 0) %>%
+    vegan::specaccum ("rarefaction", permutations=500)
+  
+  sp.acc <- tibble::tibble(Park = unique(veg.inv$Park),
+                 SpringCode = spring,
+                 SpringName = unique(veg.inv$SpringName),
+                 FieldSeason = field.season,
+                 Transects = sp.acc$sites,
+                 StDev = sp.acc$sd,
+                 Richness = sp.acc$richness)
+                 
+  return(sp.acc)
+
+}
+

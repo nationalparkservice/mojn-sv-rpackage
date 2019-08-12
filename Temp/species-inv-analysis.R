@@ -1,10 +1,6 @@
 
-library(vegan)
-library(ggplot2)
-library(springvegetation)
 
-spring<- "Grapevine"
-
+spring<- "Rogers"
 
 #Make a database connection, create an object, get the raw data for the vegetation inventory
 
@@ -32,9 +28,10 @@ names(data)[3] <- "sd"
 
 curveFigure <- ggplot (data, aes(x= sites, y= richness)) + 
    geom_point (size=2) +
+   ylim(2,40) +
    geom_errorbar (aes (x=sites, ymin=richness-sd, ymax=richness+sd, width=.2)) +
    labs (x="Sampling Effort (# transects)", y= "Species Richness") +
-   ggtitle ("Species Accumulation Curve", spring) 
+   ggtitle ( spring) 
 
 curveFigure
 
