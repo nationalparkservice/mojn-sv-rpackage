@@ -20,11 +20,14 @@ ReadAndFilterData(conn, path.to.data, park, spring, field.season,
 
 \item{data.source}{Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.}
 
-\item{data.name}{The name of the analysis view or the csv file containing the data. E.g. "LPICanopy", "TreeCountTransect"}
+\item{data.name}{The name of the analysis view or the csv file containing the data. E.g. "LPICanopy", "TreeCountTransect". See details for full list of data name options.}
 }
 \value{
 A tibble of filtered data.
 }
 \description{
 Read spring vegetation data from database or .csv
+}
+\details{
+\code{data.name} options are: Spring, SpringVisit, LPICanopy, LPIDisturbance, LPISoilSurface, LPITransect, TreeCount, TreeCountTransect, VegetationInventory, VegetationInventoryTransect.
 }
