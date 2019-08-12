@@ -35,3 +35,8 @@ test_that("SpeciesAccumulationCurve produces the expected plot", {
   expect_error(SpeciesAccumulationCurve(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", data.source = "local"))
   expect_known_value(SpeciesAccumulationCurve(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_BLUE0", field.season = "2019", data.source = "local"), file = "./known-output/SpeciesAccumulationCurve-1.Rdata", update = FALSE)
 })
+
+test_that("TableTreePresenceAbsence produces the expected output", {
+  expect_known_value(TableTreePresenceAbsence(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_ROGE0", field.season = "2019", data.source = "local"), file = "./known-output/TableTreePresenceAbsence-1.Rdata", update = FALSE)
+  expect_known_value(TableTreePresenceAbsence(path.to.data = "./dummy-data/veg-figures", data.source = "local"), file = "./known-output/TableTreePresenceAbsence-2.Rdata", update = FALSE)
+})

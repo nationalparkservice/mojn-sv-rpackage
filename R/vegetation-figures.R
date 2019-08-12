@@ -347,35 +347,74 @@ SpeciesAccumulationCurve <- function(conn, path.to.data, spring, field.season, d
   if (missing(spring)) {
     stop("Spring code must be specified")
   }
-  
+
   data <- CalculateSpeciesAccumulation(conn = conn, path.to.data = path.to.data, spring = spring, field.season = field.season, data.source = data.source)
   spring.name <- GetSpringName(conn, path.to.data, spring, data.source)
-  
+
   if (missing(field.season)) {
     stop("Field season must be specified")
   }
-  
+
   if (missing(x.lab)) {
     x.lab <- "Sampling effort (num of transects)"
   }
-  
+
   if (missing(y.lab)) {
     y.lab <- "Species richness"
   }
-  
+
   if (missing(plot.title)) {
     plot.title = "Species accumulation curve"
   }
-  
+
   sample.size <- tibble::tibble(SpringCode = spring,
                                 FieldSeason = field.season,
                                 NTransects = max(data$Transects))
-  
+
   p <- ggplot2::ggplot(data, ggplot2::aes(x = Transects, y = Richness)) +
     ggplot2::geom_point(size = 2) +
-    ggplot2::geom_errorbar(ggplot2::aes(x = Transects, ymin = Richness - StDev, ymax = Richness + StDev, width = .2)) 
-  
+    ggplot2::geom_errorbar(ggplot2::aes(x = Transects, ymin = Richness - StDev, ymax = Richness + StDev, width = .2))
+
   p <- FormatPlot(p, spring, spring.name, field.season, sample.size, plot.title = plot.title, sub.title = sub.title, x.lab = x.lab, y.lab = y.lab, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
-  
+
   return(p)
+}
+
+#' Table of tree presence/absence by spring and field season
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param park Optional. Four-letter park code to filter on, e.g. "MOJA".
+#' @param spring Optional. Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
+#' @param field.season Optional. Field season name to filter on, e.g. "2019".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#' @param dt.options Optional. Options to be passed to DT::datatable().
+#' @param ... Optional. Additional arguments to be passed to DT::datatable().
+#'
+#' @return An HTML widget.
+#' @export
+#'
+#' @details Only includes data from visits labeled 'Primary.'
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+TableTreePresenceAbsence <- function(conn, path.to.data, park, spring, field.season, dt.options, data.source = "database", ...) {
+  data <- TreePresenceAbsence(conn, path.to.data, park, spring, field.season, data.source) %>%
+    dplyr::arrange(Park, FieldSeason, SpringCode)
+
+  col.names <- gsub("([[:upper:]][[:lower:]])", " \\1", names(data)) %>% trimws()
+  col.names[5:6] <- c("# of Transects With Trees", "# of Transects Without Trees")
+
+  n.rows <- nrow(data)
+  n.cols <- length(col.names)
+
+  if (missing(dt.options)) {
+    dt.options <- list(dom = "t",
+                       pageLength = n.rows,
+                       columnDefs = list(list(className = 'dt-center', targets = 0:n.cols-1)))
+  }
+
+  tbl <- DT::datatable(data, colnames = col.names, rownames = FALSE, options = dt.options, ...)
+
+  return(tbl)
 }
