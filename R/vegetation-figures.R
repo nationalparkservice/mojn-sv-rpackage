@@ -418,3 +418,56 @@ TableTreePresenceAbsence <- function(conn, path.to.data, park, spring, field.sea
 
   return(tbl)
 }
+
+#' Boxplot of water percent cover over time
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param spring Spring code to generate a plot for, e.g. "LAKE_P_BLUE0".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#' @param plot.title Optional custom plot title. Leave blank to use a sensible default. Use "" to omit the title.
+#' @param sub.title Optional custom plot subtitle.  Leave blank to use a sensible default. Use "" to omit the subtitle.
+#' @param x.lab Optional X axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
+#' @param y.lab Y axis label. Leave blank to use a sensible default. Use "" to omit the axis label.
+#' @param ymax Optional maximum y limit.
+#' @param ymin Optional minimum y limit.
+#' @param xmax Optional maximum x limit.
+#' @param xmin Optional minimum x limit.
+#'
+#' @return A ggplot object.
+#' @export
+#'
+#' @details Only includes data from visits labeled 'Primary.' Points with water recorded as "NA" and "ND" are omitted. Omits Blue Point transects 1 - 3 in 2019 since water presence/absence was not yet being recorded consistently.
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+BoxplotWaterPercentCover <- function(conn, path.to.data, spring, data.source = "database", plot.title, sub.title, x.lab, y.lab, ymax, ymin, xmax, xmin) {
+  if (missing(spring)) {
+    stop("Spring code must be specified")
+  }
+
+  data <- WaterPercentCover(conn = conn, path.to.data = path.to.data, spring = spring, data.source = data.source)
+
+  spring.name <- GetSpringName(conn, path.to.data, spring, data.source)
+
+  if (missing(plot.title)) {
+    plot.title = "Water percent cover"
+  }
+
+  if (missing(x.lab)) {
+    x.lab <- "Field season"
+  }
+
+  if (missing(y.lab)) {
+    y.lab <- "Water percent cover per transect"
+  }
+
+  sample.size <- GetSampleSizes(data)
+
+  p <- ggplot2::ggplot(data, ggplot2::aes(x = FieldSeason, y = WaterCover_percent)) +
+    ggplot2::geom_boxplot()
+
+  p <- FormatPlot(p, spring, spring.name, sample.sizes = sample.size, plot.title = plot.title, sub.title = sub.title, x.lab = x.lab, y.lab = y.lab, ymax = ymax, ymin = ymin, xmax = xmax, xmin = xmin)
+
+  return(p)
+}

@@ -40,3 +40,8 @@ test_that("TableTreePresenceAbsence produces the expected output", {
   expect_known_value(TableTreePresenceAbsence(path.to.data = "./dummy-data/veg-figures", spring = "LAKE_P_ROGE0", field.season = "2019", data.source = "local"), file = "./known-output/TableTreePresenceAbsence-1.Rdata", update = FALSE)
   expect_known_value(TableTreePresenceAbsence(path.to.data = "./dummy-data/veg-figures", data.source = "local"), file = "./known-output/TableTreePresenceAbsence-2.Rdata", update = FALSE)
 })
+
+test_that("BoxplotWaterPercentCover produces the expected plot", {
+  expect_error(BoxplotWaterPercentCover(path.to.data = "./dummy-data/veg-figures/water", spring = "LAKE_P_BLUE0", data.source = "local"), regexp = "Data are not available for the spring specified")
+  expect_known_value(BoxplotWaterPercentCover(path.to.data = "./dummy-data/veg-figures/water", spring = "LAKE_P_ROGE0", data.source = "local"), file = "./known-output/BoxplotWaterPercentCover-1.Rdata", update = FALSE)
+})
