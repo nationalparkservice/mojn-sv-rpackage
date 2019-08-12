@@ -58,3 +58,14 @@ test_that("TreePresenceAbsence correctly reports the number of transects with an
   expect_mapequal(TreePresenceAbsence(path.to.data = "./dummy-data/veg-analysis", data.source = "local"), expected)
   expect_mapequal(TreePresenceAbsence(path.to.data = "./dummy-data/veg-analysis", data.source = "local", spring = "LAKE_P_ROGE0"), expected[2,])
 })
+
+test_that("WaterPercentCover correctly computes the water percent cover for each transect", {
+  expected <- tibble::tibble(Park = "LAKE",
+                             SpringCode = "LAKE_P_ROGE0",
+                             SpringName = "Rogers",
+                             FieldSeason = "2019",
+                             TransectNumber = as.integer(c(1, 2)),
+                             WaterCover_percent = c(66.7, 0))
+
+  expect_mapequal(WaterPercentCover(path.to.data = "./dummy-data/veg-analysis/water", data.source = "local"), expected)
+})

@@ -252,3 +252,38 @@ TreePresenceAbsence <- function(conn, path.to.data, park, spring, field.season, 
 
   return(tree.pa)
 }
+
+#' Water percent cover by transect
+#'
+#' @param conn Database connection generated from call to \code{OpenDatabaseConnection()}. Ignored if \code{data.source} is \code{"local"}.
+#' @param path.to.data The directory containing the csv data exports generated from \code{SaveDataToCsv()}. Ignored if \code{data.source} is \code{"database"}.
+#' @param park Optional. Four-letter park code to filter on, e.g. "MOJA".
+#' @param spring Optional. Spring code to filter on, e.g. "LAKE_P_BLUE0".
+#' @param field.season Optional. Field season name to filter on, e.g. "2019".
+#' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
+#'
+#' @return A tibble with columns Park, SpringCode, SpringName, FieldSeason, TransectNumber, WaterPercentCover
+#' @export
+#'
+#' @details Only includes data from visits labeled 'Primary.' Points with water recorded as "NA" and "ND" are omitted. Omits Blue Point transects 1 - 3 in 2019 since water presence/absence was not yet being recorded consistently.
+#'
+#' @importFrom magrittr %>% %<>%
+#'
+WaterPercentCover <- function(conn, path.to.data, park, spring, field.season, data.source = "database") {
+  lpi.canopy <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "LPICanopy")
+
+  pct.cover <- lpi.canopy %>%
+    dplyr::filter(VisitType == "Primary" & !WaterPresent %in% c("NA", "ND")) %>%
+    dplyr::filter(!(SpringCode == "LAKE_P_BLUE0" & TransectNumber %in% c(1:3) & FieldSeason == "2019")) %>%  # Omit Blue Point transects 1 - 3 in 2019 since water presence/absence was not recorded consistently here.
+    dplyr::select(Park, SpringCode, SpringName, FieldSeason, TransectNumber, LocationOnTape_m, WaterPresent) %>%
+    dplyr::mutate(HasWater = (WaterPresent == "Y")) %>%  # Create a column indicating presence/absence of water
+    dplyr::select(-WaterPresent) %>%  # We don't care about the type of canopy anymore
+    unique() %>%  # Now we have one row per transect point indicating whether or not water is present
+    dplyr::select(-LocationOnTape_m) %>%
+    dplyr::group_by(Park, SpringCode, SpringName, FieldSeason, TransectNumber) %>%
+    dplyr::summarise(WaterCover_percent = 100 * mean(HasWater)) %>%  # Since HasCanopy is logical (true/false), the mean * 100 should give us pct cover
+    dplyr::mutate(WaterCover_percent = round(WaterCover_percent, 1)) %>%
+    dplyr::ungroup()
+
+  return(pct.cover)
+}
