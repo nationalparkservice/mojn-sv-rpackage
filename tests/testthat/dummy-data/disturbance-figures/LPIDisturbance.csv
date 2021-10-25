@@ -1,0 +1,21 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,TransectNumber,LocationOnTape_m,DataAccuracy,WaterPresent,DisturbanceCode,DisturbanceDescription,DataProcessingLevel
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,0.5,Exact,,ANT,Ant mound,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,0.5,Exact,,TR,Trash,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1,Exact,,TR,Trash,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,0,1.5,Exact,,,,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,0.5,Exact,,WSH,Wash,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1,Exact,,TR,Trash,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,1,1.5,Exact,,,,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,0.5,Exact,,ANT,Ant mound,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1,Exact,,ANT,Ant,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,2,1.5,Exact,,,,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,0,0.5,Exact,,ANT,Ant mound,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,0,0.5,Exact,,WSH,Wash,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,0,1,Exact,,TR,Trash,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,0,1.5,Exact,,,,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,1,0.5,Exact,,WSH,Wash,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,1,1,Exact,,TR,Trash,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,1,1.5,Exact,,,,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,2,0.5,Exact,,ANT,Ant mound,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,2,1,Exact,,ANT,Ant,Raw
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,2,1.5,Exact,,,,Raw

@@ -1,0 +1,17 @@
+Park,SpringCode,SpringName,SpringCategory,VisitType,FieldSeason,StartDate,StartTime,EndTime,TransectNumber,Wind,SkyCondition,Notes,DataProcessingLevel,DataProcessingLevelDate,DataProcessingLevelNote
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,11:18:00,11:51:00,0,1,NA,NA,Raw,2019-04-10T10:26:24Z,NA
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2019,4/4/2019,11:15:00,11:51:00,1,1,NA,NA,Raw,2019-04-10T11:39:51Z,NA
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,9:23:00,10:02:00,0,2,CLR,NA,Raw,2019-05-20T12:11:51Z,NA
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,12:05:00,12:31:00,1,2,CLR,Sunny and hot,Raw,2019-05-20T15:20:50Z,NA
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2019,4/22/2019,12:26:00,13:05:00,2,2,CLR,sunny,Raw,2019-05-20T16:08:57Z,NA
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,12:40:00,13:10:00,0,4,CLR,The BR code for soil surface is actually poured concrete. Weather sunny and clear.,Raw,2019-05-20T16:13:13Z,NA
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,14:53:00,15:14:00,1,5,CLR,NA,Raw,2019-05-21T11:59:37Z,Point 12 ELRO2 assumed to be B stratum from context.
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2019,5/6/2019,11:08:00,11:54:00,2,5,ND,NA,Raw,2019-05-21T15:01:12Z,NA
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,11:18:00,11:51:00,0,1,NA,NA,Raw,2019-04-10T10:26:24Z,NA
+LAKE,LAKE_P_BLUE0,Blue Point,Stream-like,Primary,2020,4/4/2019,11:15:00,11:51:00,1,1,NA,NA,Raw,2019-04-10T11:39:51Z,NA
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2020,4/22/2019,9:23:00,10:02:00,0,2,CLR,NA,Raw,2019-05-20T12:11:51Z,NA
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2020,4/22/2019,12:05:00,12:31:00,1,2,CLR,Sunny and hot,Raw,2019-05-20T15:20:50Z,NA
+LAKE,LAKE_P_HOR0042,Horsethief Canyon,Stream-like,Primary,2020,4/22/2019,12:26:00,13:05:00,2,2,CLR,sunny,Raw,2019-05-20T16:08:57Z,NA
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2020,5/6/2019,12:40:00,13:10:00,0,4,CLR,The BR code for soil surface is actually poured concrete. Weather sunny and clear.,Raw,2019-05-20T16:13:13Z,NA
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2020,5/6/2019,14:53:00,15:14:00,1,5,CLR,NA,Raw,2019-05-21T11:59:37Z,Point 12 ELRO2 assumed to be B stratum from context.
+LAKE,LAKE_P_ROGE0,Rogers,Stream-like,Primary,2020,5/6/2019,11:08:00,11:54:00,2,5,ND,NA,Raw,2019-05-21T15:01:12Z,NA

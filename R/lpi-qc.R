@@ -139,7 +139,7 @@ LpiQcUNKSpecies <- function(conn, path.to.data, park, spring, field.season, data
 #' @param field.season Optional. Field season name to filter on, e.g. "2019".
 #' @param data.source Character string indicating whether to access data in the spring veg database (\code{"database"}, default) or to use data saved locally (\code{"local"}). In order to access the most up-to-date data, it is recommended that you select \code{"database"} unless you are working offline or your code will be shared with someone who doesn't have access to the database.
 #'
-#' @return A tibble with columns Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, UnknownPlantCode, TransectNumber, LocationOnTape_m, Stratum, Canopy
+#' @return A tibble with columns Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, UnknownPlantCode, TransectNumber, LocationOnTape_m, Stratum, Canopy, IsDead
 #' @export
 #'
 #' @importFrom magrittr %>% %<>%
@@ -157,8 +157,8 @@ LpiQcDuplicateSpecies <- function(conn, path.to.data, park, spring, field.season
   lpi.canopy <- ReadAndFilterData(conn, path.to.data, park, spring, field.season, data.source, "LPICanopy")
 
   dup.species <- lpi.canopy %>%
-    dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, UnknownPlantCode, TransectNumber, LocationOnTape_m, Stratum, Canopy) %>%
-    dplyr::group_by(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, LocationOnTape_m, Stratum, Canopy) %>%
+    dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, UnknownPlantCode, TransectNumber, LocationOnTape_m, Stratum, Canopy, IsDead) %>%
+    dplyr::group_by(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, LocationOnTape_m, Stratum, Canopy, IsDead) %>%
     dplyr::mutate(UnknownPlantCode = paste(UnknownPlantCode, collapse = ", ")) %>%
     dplyr::mutate(DupCount = dplyr::n()) %>%
     dplyr::filter(DupCount > 1) %>%

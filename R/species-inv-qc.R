@@ -96,6 +96,7 @@ SpInvQcDuplicateSpecies <- function(conn, path.to.data, park, spring, field.seas
 
   dup.species <- sp.inv %>%
     dplyr::select(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, UnknownPlantCode, TransectNumber, USDAPlantsCode) %>%
+    dplyr::filter(!(USDAPlantsCode %in% c("UNK", "TBD"))) %>%
     dplyr::group_by(Park, SpringCode, SpringName, VisitType, FieldSeason, StartDate, TransectNumber, USDAPlantsCode) %>%
     dplyr::mutate(UnknownPlantCode = paste(UnknownPlantCode, collapse = ", ")) %>%
     dplyr::mutate(DupCount = dplyr::n()) %>%

@@ -57,7 +57,8 @@ test_that("LpiQcDuplicateSpecies returns a dataframe of points with unknowns tha
                                  TransectNumber = as.integer(1),
                                  LocationOnTape_m = 1,
                                  Stratum = "B",
-                                 Canopy = "TYAN")
+                                 Canopy = "TYAN",
+                                 IsDead = "N")
   expect_mapequal(LpiQcDuplicateSpecies(path.to.data = "./dummy-data/lpi-qc/bad", data.source = "local"), expected)
 })
 
